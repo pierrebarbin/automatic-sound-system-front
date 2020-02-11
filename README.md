@@ -1,3 +1,10 @@
+##Inspiration
+
+https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
+
+
+#React
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
