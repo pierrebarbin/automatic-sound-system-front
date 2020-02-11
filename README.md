@@ -2,6 +2,13 @@
 
 https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
 
+## Librairies principales
+
+  - React Router DOM
+  - Axios
+  - TailwindCss
+  
+  Pour plus d'informations consulter le `package.json`
 
 # React
 
