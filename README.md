@@ -2,13 +2,46 @@
 
 https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
 
+## Structure du projet
+  
+  - src
+    - components  <-- Composants de l'application
+      - pages  <-- Les composants appelés par le router
+      - routes  <-- Les composants du router
+    - css
+    - routing  <-- La configuration du router
+      
+
 ## Librairies principales
 
-  - React Router DOM
   - Axios
   - TailwindCss
+  - React Router DOM
+  - React
   
   Pour plus d'informations consulter le `package.json`
+  
+# Axios
+
+## Documentation
+
+https://github.com/axios/axios
+
+# TailwindCss
+
+## Utilisation
+
+La compilation des css de tailwind est lancée automatiquement avec commandes de compilations React
+
+## Documentation 
+
+https://tailwindcss.com/
+
+# React Router DOM
+
+## Documentation
+
+https://reacttraining.com/react-router/web/guides/quick-start
 
 # React
 
