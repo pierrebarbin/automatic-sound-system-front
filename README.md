@@ -10,6 +10,7 @@ https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
       - routes  <-- Les composants du router
     - css
     - routing  <-- La configuration du router
+  - specs  <-- Les spécifications du projet
       
 
 ## Librairies principales
