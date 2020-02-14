@@ -1,4 +1,14 @@
 /* src/tailwind.css */
 @tailwind base;
 @tailwind components;
+
+.box {
+    @apply bg-gray-900 rounded-lg elevation-4 px-4;
+}
+
+.left-side-container {
+    height: calc(100% - 5rem);
+    top: 5rem;
+}
+
 @tailwind utilities;
