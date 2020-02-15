@@ -3,7 +3,7 @@
 @tailwind components;
 
 .box {
-    @apply bg-gray-900 rounded-lg elevation-4 px-4;
+    @apply bg-gray-900 rounded-lg elevation-2 px-4;
 }
 
 .left-side-container {
