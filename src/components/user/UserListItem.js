@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
+import { useTranslation } from 'react-i18next';
 import musicPlaylistIcon from "../../assets/icons/zondicons/music-playlist.svg";
 
 const UserListItem = props => {
+    const { t } = useTranslation();
     const {id, name, avatar} = props.user;
     return (
         <div className="flex p-2 rounded-lg mt-4 items-center justify-between hover:bg-gray-800 hover:shadow-xl">
@@ -20,7 +22,7 @@ const UserListItem = props => {
                    <SVG
                        src={musicPlaylistIcon}
                        className="h-4 w-4 fill-current"
-                       title={`Défier ${name}`}
+                       title={`${t('global.user.list.challenge')} ${name}`}
                    />
                </div>
 

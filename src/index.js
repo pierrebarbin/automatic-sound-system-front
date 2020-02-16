@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './translations/i18n.js';
 import App from './components/App';
 import './css/styles.css';
 //import * as serviceWorker from './serviceWorker';
