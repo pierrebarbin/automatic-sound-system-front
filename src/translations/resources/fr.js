@@ -1,9 +1,13 @@
 export default {
     "global": {
-        "user": {
-            "list": {
-                "title": "Utilisateurs",
-                "challenge": "Défier"
+        header: {
+            home: "Accueil",
+            login: "Se connecter"
+        },
+        user: {
+            list: {
+                title: "Utilisateurs",
+                challenge: "Défier"
             }
         }
     }
