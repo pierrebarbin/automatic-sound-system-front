@@ -8,6 +8,9 @@ export default {
             list: {
                 title: "Utilisateurs",
                 challenge: "Défier"
+            },
+            tchat: {
+                title: "Tchat"
             }
         }
     }

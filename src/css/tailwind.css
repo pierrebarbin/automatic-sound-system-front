@@ -2,6 +2,22 @@
 @tailwind base;
 @tailwind components;
 
+.separator-r {
+    @apply border-r border-gray-600;
+}
+
+.separator-l {
+    @apply border-l border-gray-600;
+}
+
+.separator-t {
+    @apply border-t border-gray-600;
+}
+
+.separator-b {
+    @apply border-b border-gray-600;
+}
+
 .box {
     @apply bg-gray-900 rounded-lg elevation-2 px-4;
 }
@@ -9,6 +25,10 @@
 .left-side-container {
     height: calc(100% - 5rem);
     top: 5rem;
+}
+
+.left-side-container .content{
+    height: calc(100% - 3rem);
 }
 
 @tailwind utilities;

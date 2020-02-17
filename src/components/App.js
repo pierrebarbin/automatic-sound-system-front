@@ -3,6 +3,7 @@ import RouteConfig from "./routes/RouteConfig";
 import TheHeader from "./common/TheHeader";
 import {BrowserRouter as Router} from "react-router-dom";
 import UserList from "./user/UserList";
+import TheRightSidePanel from "./common/TheRightSidePanel";
 
 class App extends Component {
 
@@ -30,12 +31,37 @@ class App extends Component {
                     id: 4,
                     name: "J-B",
                     avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id: 5,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id: 6,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id: 7,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id:8,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id: 9,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
+                },{
+                    id: 10,
+                    name: "J-B",
+                    avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg"
                 },
             ]
         }
     }
 
     render() {
+
         return (
             <div className="bg-gray-800 text-gray-600 min-h-full">
                 <Router>
@@ -43,11 +69,7 @@ class App extends Component {
                     <div className="w-4/5 pt-24 px-4">
                         <RouteConfig/>
                     </div>
-                    <div className="left-side-container fixed right-0 p-4 w-1/5">
-                        <div className="h-full w-full box p-4">
-                            <UserList users={this.state.users}/>
-                        </div>
-                    </div>
+                    <TheRightSidePanel users={this.state.users}/>
                 </Router>
             </div>
         );

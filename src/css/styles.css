@@ -608,6 +608,26 @@ video {
   }
 }
 
+.separator-r {
+  border-right-width: 1px;
+  border-color: #718096;
+}
+
+.separator-l {
+  border-left-width: 1px;
+  border-color: #718096;
+}
+
+.separator-t {
+  border-top-width: 1px;
+  border-color: #718096;
+}
+
+.separator-b {
+  border-bottom-width: 1px;
+  border-color: #718096;
+}
+
 .box {
   background-color: #1a202c;
   border-radius: 0.5rem;
@@ -619,6 +639,10 @@ video {
 .left-side-container {
   height: calc(100% - 5rem);
   top: 5rem;
+}
+
+.left-side-container .content{
+  height: calc(100% - 3rem);
 }
 
 .sr-only {
