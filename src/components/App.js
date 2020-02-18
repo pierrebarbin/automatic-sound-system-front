@@ -63,7 +63,7 @@ class App extends Component {
     render() {
 
         return (
-            <div className="bg-gray-800 text-gray-600 min-h-full">
+            <div className="bg-gray-800 text-gray-500 min-h-full">
                 <Router>
                     <TheHeader/>
                     <div className="w-4/5 pt-24 px-4">

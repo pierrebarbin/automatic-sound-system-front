@@ -645,6 +645,14 @@ video {
   height: calc(100% - 3rem);
 }
 
+.left-side-container .chat-conversation{
+  height: calc(100% - 3rem);
+}
+
+.text-focus:focus {
+  color: rgba(66, 153, 225, 0.5);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

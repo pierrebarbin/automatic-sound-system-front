@@ -3,7 +3,6 @@ import UserList from "../user/UserList";
 import ChatContainer from "../chat/ChatContainer";
 
 const TheRightSidePanelContent = ({users,currentTab}) => {
-    console.log({users,currentTab});
     const renderTabContent = () => {
         if(currentTab === 'chat'){
             return (

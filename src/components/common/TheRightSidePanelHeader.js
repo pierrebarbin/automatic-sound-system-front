@@ -8,7 +8,7 @@ const TheRightSidePanelHeader = ({currentTab, onChangeTab}) => {
     const { t } = useTranslation();
     return (
         <div className="flex justify-between">
-            <div className="text-gray-600 font-semibold text-lg flex-grow flex items-center justify-center">
+            <div className=" font-semibold text-lg flex-grow flex items-center justify-center">
                 <button
                     type="button"
                     className={`p-2 rounded-full cursor-pointer focus:outline-none ${currentTab === 'users' ? 'bg-gray-800' : ''}`}
@@ -24,7 +24,7 @@ const TheRightSidePanelHeader = ({currentTab, onChangeTab}) => {
 
             <div className="separator-r flex-grow-0"/>
 
-            <div className="text-gray-600 font-semibold text-lg flex-grow flex items-center justify-center">
+            <div className="font-semibold text-lg flex-grow flex items-center justify-center">
                 <button
                     type="button"
                     className={`p-2 rounded-full cursor-pointer focus:outline-none ${currentTab === 'chat' ? 'bg-gray-800' : ''}`}

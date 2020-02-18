@@ -10,7 +10,11 @@ export default {
                 challenge: "Défier"
             },
             tchat: {
-                title: "Tchat"
+                title: "Tchat",
+                form: {
+                    placeholder: "Ecrire un message...",
+                    send: "Envoyer"
+                }
             }
         }
     }
