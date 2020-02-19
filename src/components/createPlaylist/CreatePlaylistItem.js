@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-const CreatePlaylistItem = ({ response }, { removeItem }) => {
+
+const CreatePlaylistItem = ({ response , removeItem }) => {
+  
   const { title, artist, track, id } = response;
   const [editedTitle, setTitre] = useState(title);
   const [editedArtist, setArtiste] = useState(artist);

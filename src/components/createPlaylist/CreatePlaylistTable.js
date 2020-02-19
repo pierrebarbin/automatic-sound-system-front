@@ -1,4 +1,5 @@
 import React from "react";
+
 import CreatePlaylistItem from "./CreatePlaylistItem.js";
 const CreatePlaylistTable = ({ responses }) => {
   const removeTrack = event => {};
@@ -17,7 +18,7 @@ const CreatePlaylistTable = ({ responses }) => {
           return (
             <CreatePlaylistItem
               key={response.id}
-              reponse={response}
+              response={response}
               removeTrack={removeTrack}
             />
           );

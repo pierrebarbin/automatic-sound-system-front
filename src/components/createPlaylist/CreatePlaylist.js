@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreatePlaylistTable from "./CreatePlaylistTable.js";
 import InputPlaylist from "./InputPlaylist.js";
-import Axios from "axios";
+
 const CreatePlaylist = () => {
   const [name, setName] = useState("");
 
