@@ -1,6 +1,6 @@
-import axios from "axios";
+import axiosModule from "axios";
 
-export const axios = axios.create({
+export const axios = axiosModule.create({
     baseURL: 'https://some-domain.com/api/',
     timeout: 10000,
 });
