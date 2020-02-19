@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class Index extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Index</h1>
-            </div>
-        );
-    }
-}
+const Index = () => {
+    return (
+        <div>
+            <h1>Index</h1>
+        </div>
+    );
+};
 
 export default Index;
