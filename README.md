@@ -6,10 +6,12 @@ https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
   
   - src
     - components  <-- Composants de l'application
+      - common  <-- Les composants commun à plusieurs pages
       - pages  <-- Les composants appelés par le router
       - routes  <-- Les composants du router
     - css
     - routing  <-- La configuration du router
+    - translations  <-- Les traductions du projet
   - specs  <-- Les spécifications du projet
       
 
@@ -17,6 +19,7 @@ https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
 
   - Axios
   - TailwindCss
+  - React-i18next
   - React Router DOM
   - React
   
@@ -37,6 +40,12 @@ La compilation des css de tailwind est lancée automatiquement avec commandes de
 ## Documentation 
 
 https://tailwindcss.com/
+
+# React i18n
+
+## Documentation
+
+https://react.i18next.com/
 
 # React Router DOM
 

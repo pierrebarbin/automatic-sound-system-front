@@ -19,8 +19,4 @@ const RouteWithSubRoutes = route => {
     );
 };
 
-RouteWithSubRoutes.propTypes = {
-    router: PropTypes.object.isRequired
-};
-
 export default RouteWithSubRoutes;
