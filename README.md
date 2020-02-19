@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/538d51c8-8b82-475c-ae96-436f71e5fced/deploy-status)](https://app.netlify.com/sites/musicass/deploys)
+
 ## Inspiration
 
 https://openclassrooms.com/forum/sujet/mini-jeu-blind-test
