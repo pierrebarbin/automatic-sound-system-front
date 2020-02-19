@@ -4,13 +4,16 @@ import InputPlaylist from "./InputPlaylist.js";
 
 const CreatePlaylist = () => {
   const [name, setName] = useState("");
+  const [importUrl, setImportUrl] = useState("");
 
   const [responses, setResponses] = useState([]);
 
   const onNameChange = event => setName(event.target.value);
 
-  const onImportchange = event => {
-    if (event.target.value === "") return;
+  const onImportChange = event => {
+    const value = event.target.value;
+
+    setImportUrl(value);
 
     // Axios.post(CONSTANT.URLPLAYLIST, event.target.value).then()
     setResponses([
@@ -50,8 +53,7 @@ const CreatePlaylist = () => {
   };
   return (
     <div>
-      <form action="">
-        <fieldset>
+      <form>
           <InputPlaylist
             value={name}
             name="PlayListName"
@@ -59,13 +61,12 @@ const CreatePlaylist = () => {
             placeholder="nom de la playlist"
           />
           <InputPlaylist
-            value={name}
+            value={importUrl}
             name="UrlPlaylist"
-            onChange={onImportchange}
+            onChange={onImportChange}
             placeholder="import playlist"
           />
           <CreatePlaylistTable responses={responses} />
-        </fieldset>
       </form>
     </div>
   );
