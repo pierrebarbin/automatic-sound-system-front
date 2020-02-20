@@ -1,5 +1,5 @@
 export default {
-    global: {
+    "global": {
         header: {
             home: "Accueil",
             login: "Se connecter"
@@ -35,6 +35,26 @@ export default {
                 artist: "Artiste",
                 yt_title: "Titre Youtube"
             }
+        },
+        action: "Action"
+    },
+    home: {
+        classement: {
+            title: "Classement général"
+        },
+        tablePlaylist: {
+            title: "Titre",
+            npu: "N.P.U",
+            creator: "Createur",
+            scoreMax: "Score Max"
+        },
+        tablePlaylistItem: {
+            play: "Jouer",
+            challenge: "Defier"
         }
+    },
+    classement: {
+        joueur: "Joueur",
+        score: "Score"
     }
 };

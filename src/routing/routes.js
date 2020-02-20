@@ -1,6 +1,6 @@
 import Index from "../components/pages/Index.js";
 import Login from "../components/pages/auth/Login.js";
-import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist.js";
+import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist"
 
 export const routes = [
     {
