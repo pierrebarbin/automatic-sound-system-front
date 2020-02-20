@@ -15,6 +15,7 @@
     "react-inlinesvg": "^1.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.1",
+    "react-youtube": "^7.9.0",
     "tailwindcss-elevation": "^0.3.3"
   },
   "scripts": {
