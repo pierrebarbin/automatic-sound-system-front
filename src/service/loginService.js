@@ -50,7 +50,7 @@ import {axios} from './axios.js'
 const getUserLog=()=>{
         return new Promise(function(resolve, reject) {
           if(isUserLog()){
-            axios.get('/userlog',{
+            axios.get('/users/current',{
                 headers:{
                     Authorization : `Bearer ${localStorage.getItem('login_token')}`
                 }
