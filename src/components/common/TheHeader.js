@@ -11,7 +11,7 @@ import {
 const TheHeader = props => {
     const { t } = useTranslation();
     return (
-        <div className="w-full p-4 fixed">
+        <div className="w-full p-4 fixed z-50">
             <div className="box h-16 flex items-center box-border">
                 <nav className="flex justify-between items-center w-full">
                     <div>

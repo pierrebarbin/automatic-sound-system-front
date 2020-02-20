@@ -1,8 +1,9 @@
 import React from "react";
-
 import CreatePlaylistItem from "./CreatePlaylistItem.js";
-const CreatePlaylistTable = ({ responses }) => {
+
+const CreatePlaylistTable = ({ responses, loading }) => {
   const removeTrack = event => {};
+  
   return (
     <table>
       <thead>

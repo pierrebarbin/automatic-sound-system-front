@@ -1,13 +1,15 @@
 import React from "react";
 
-const InputPlaylist = ({ value, name, onChange, placeholder }) => {
+const InputPlaylist = ({ id,className, value, name, onChange, placeholder }) => {
   return (
     <input
-      value={value}
-      type="text"
-      onChange={onChange}
-      name={name}
-      placeholder={placeholder}
+        id={id}
+        className={className}
+        value={value}
+        type="text"
+        onChange={onChange}
+        name={name}
+        placeholder={placeholder}
     />
   );
 };
