@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputPlaylist = ({ id,className, value, name, onChange, placeholder }) => {
+const InputPlaylist = ({ id,className, value, name, onChange, placeholder,disabled }) => {
   return (
     <input
         id={id}
@@ -10,6 +10,7 @@ const InputPlaylist = ({ id,className, value, name, onChange, placeholder }) => 
         onChange={onChange}
         name={name}
         placeholder={placeholder}
+        disabled={disabled}
     />
   );
 };

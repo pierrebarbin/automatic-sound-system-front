@@ -55,6 +55,7 @@ const CreatePlaylist = () => {
           }
         }
       ]);
+      setLoading(false);
     },3000);
     // Axios.post(CONSTANT.URLPLAYLIST, event.target.value).then()
 
@@ -72,7 +73,7 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListTitle"
-              className="bg-gray-700 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
+              className="bg-gray-600 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
               value={name}
               name="PlayListName"
               onChange={onNameChange}
@@ -85,18 +86,19 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListImportUrl"
-              className="bg-gray-700 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-900"
+              className="bg-gray-600 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-900"
               value={importUrl}
               name="UrlPlaylist"
               onChange={onImportChange}
               placeholder={t('create_playlist.form.import_url_placeholder')}
+              disabled={loading}
           />
           <CreatePlaylistTable loading={loading} responses={responses} />
         </form>
       </div>
-      <div className="absolute right-0 top-0 mt-16 text-right">
+      <div className="absolute right-0 top-0 mt-32 lg:mt-8 text-right">
         <SVG
-            className="hidden sm:block sm:h-32 md:h-48 lg:h-72 xl:h-96"
+            className="hidden sm:block sm:h-32 md:h-48 lg:h-72"
             src={MusicComposeIllustration}
             title={t('create_playlist.title')}
         />
