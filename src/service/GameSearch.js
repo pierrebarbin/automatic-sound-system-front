@@ -4,14 +4,9 @@ export default GameSearch
 /**
  * @return {number}
  */
-export function GameSearch(input, SingerState, SongState, BooleanSingerState, BooleanSongState) {
+export function GameSearch(InputValue, valueSinger, valueSong, BooleanSinger, BooleanSong) {
     //récupération de l'api https://www.npmjs.com/package/node-levenshtein
-
-    const [InputValue, setInputValue] = useState(input);
-    const [valueSinger, setvaluesinger] = useState(SingerState);
-    const [valueSong, setvalueSong] = useState(SongState);
-    const [BooleanSinger, setBooleanSinger] = useState(BooleanSingerState);
-    const [BooleanSong, setBooleanSong] = useState(BooleanSongState);
+    console.log("phoque")
     //  calcul des différences entre les mots
     let LevenSinger = levenshtein(InputValue, valueSinger);
     let LevenSong = levenshtein(InputValue, valueSong);
