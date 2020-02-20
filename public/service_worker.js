@@ -1,11 +1,16 @@
 self.addEventListener('push', function(event) {
     console.log('[Service Worker] Push Received.');
-    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-    console.log(event);
 
-    const title = 'Push Codelab';
+    let data = event.data.json();
+
+    console.log();
+
+    const title = (data.title !== "") ? data.title : "New Notification";
     const options = {
-        body: 'Yay it works.',
+        body: data.message,
+        data: {
+            link: (data.link !== "") ? data.link : "/notification",
+        },
         icon: 'images/icon.png',
         badge: 'images/badge.png'
     };
@@ -13,11 +18,11 @@ self.addEventListener('push', function(event) {
     event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', (event) => {
     console.log('[Service Worker] Notification click Received.');
     console.log(event.notification);
     event.notification.close();
     event.waitUntil(
-        clients.openWindow('https://developers.google.com/web/')
+        clients.openWindow(event.notification.data.link)
     );
 });

@@ -46,8 +46,10 @@ class NotificationPushService {
                             return;
                         }
 
+                        this.unSubscribeClient();
                         console.error("Failed to update server");
                     }).catch((err) => {
+                        this.unSubscribeClient();
                         console.error('Failed to subscribe the user: ', err);
                     });
                 }
