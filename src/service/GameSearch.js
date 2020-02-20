@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
+import levenshtein from 'js-levenshtein';
 export default GameSearch
 /**
  * @return {number}
  */
 export function GameSearch(input, SingerState, SongState, BooleanSingerState, BooleanSongState) {
     //récupération de l'api https://www.npmjs.com/package/node-levenshtein
-    const levenshtein = require('node-levenshtein');
 
     const [InputValue, setInputValue] = useState(input);
     const [valueSinger, setvaluesinger] = useState(SingerState);
