@@ -24,3 +24,4 @@ yarn-error.log*
 .idea
 /react-seed.iml
 package-lock.json
+/.vscode
