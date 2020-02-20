@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import {
     Link
 } from "react-router-dom";
+import { logOut } from '../../service/loginService';
+
 
 const TheHeader = props => {
     const { t } = useTranslation();
@@ -30,6 +32,7 @@ const TheHeader = props => {
                         <Link
                             to="/login"
                             className="block p-2 bg-gray-800 rounded-full hover:shadow-lg "
+                            onClick={()=>logOut()}
                         >
                             <SVG
                                 src={LoginIcon}
@@ -37,7 +40,7 @@ const TheHeader = props => {
                                 title={t('global.header.login')}
                             />
                         </Link>
-                    </div>
+                        </div>
                 </nav>
             </div>
         </div>
