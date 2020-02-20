@@ -5,11 +5,11 @@ import {
     Switch,
 } from "react-router-dom";
 
-const RouteConfig = () => {
+const RouteConfig = props => {
     return (
         <Switch>
                 {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route}/>
+                    <RouteWithSubRoutes key={i} {...route} {...props}/>
                 ))}
         </Switch>
     );
