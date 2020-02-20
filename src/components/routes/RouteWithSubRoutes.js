@@ -13,6 +13,7 @@ const RouteWithSubRoutes = route => {
             render={props => (
                 <route.component
                     {...props}
+                    {...route}
                     routes={routes}
             />)}
         />
