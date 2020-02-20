@@ -15,14 +15,16 @@ class NotificationPushService {
     /**
      *
      * @param appPublicKey
-     * @param serviceWorkerRegistration
      * @param apiEndPointSubscribeUser
+     * @param apiEndPointUnsubscribeUserApiEndpoint
+     * @param serviceWorkerRegistration
      */
-    constructor(appPublicKey, apiEndPointSubscribeUser, serviceWorkerRegistration) {
+    constructor(appPublicKey, apiEndPointSubscribeUser, apiEndPointUnsubscribeUserApiEndpoint, serviceWorkerRegistration) {
         this.appPublicKey = appPublicKey;
         this.applicationServerKey = NotificationPushService.urlB64ToUint8Array(this.appPublicKey);
         this.serviceWorkerRegistration = serviceWorkerRegistration;
         this.apiEndPointSubscribeUser = apiEndPointSubscribeUser;
+        this.apiEndPointUnsubscribeUserApiEndpoint = apiEndPointUnsubscribeUserApiEndpoint;
     }
 
     /**
@@ -40,7 +42,7 @@ class NotificationPushService {
                         }
                     ).then((subscriptionData) => {
                         if (subscriptionData) {
-                            this.updateServer(subscriptionData);
+                            this.subscribeOnServer(subscriptionData);
                             return;
                         }
 
@@ -52,8 +54,27 @@ class NotificationPushService {
             });
     }
 
-    unSubscribeClient() {
-
+    /**
+     *
+     * @param onServer
+     */
+    unSubscribeClient(onServer = true) {
+        this.serviceWorkerRegistration.pushManager
+            .getSubscription()
+            .then((subscription) => {
+                if (subscription) {
+                    return subscription.unsubscribe();
+                }
+            })
+            .catch(function(error) {
+                console.error('Error unsubscribing', error);
+            })
+            .then(() => {
+                if (onServer) {
+                    this.unsubscribeOnServer();
+                }
+                console.log('User is unsubscribed.');
+            });
     }
 
     /**
@@ -61,7 +82,7 @@ class NotificationPushService {
      *
      * @param subscriptionData
      */
-    updateServer(subscriptionData) {
+    subscribeOnServer(subscriptionData) {
         let requestData = {
             method: "POST",
             headers: {
@@ -71,23 +92,28 @@ class NotificationPushService {
             body: JSON.stringify(subscriptionData),
         };
 
-	console.log(requestData);
-
-        let myRequest = new Request(this.apiEndPointSubscribeUser, requestData);
-
-        fetch(myRequest).then((response) => {
-            if (response.ok) {
-                console.info("Server update successfully");
-                console.info(response);
-                return;
-            }
-            console.error(response);
-        }).catch(function (error) {
-            console.error("Failed to update Server");
-            console.error(error);
-        });
+        NotificationPushService.fetchServer(new Request(this.apiEndPointSubscribeUser, requestData));
     }
 
+    /**
+     * Send request to remove all subscription !
+     */
+    unsubscribeOnServer() {
+        let requestData = {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+
+        NotificationPushService.fetchServer(new Request(this.apiEndPointUnsubscribeUserApiEndpoint, requestData));
+    }
+
+    /**
+     *
+     * @returns {number}
+     */
     static checkAuthorisation() {
         switch (Notification.permission) {
             case "granted":
@@ -99,6 +125,9 @@ class NotificationPushService {
         }
     }
 
+    /**
+     *
+     */
     static askAgainAuthorisation() {
         if (this.checkAuthorisation() === 1) {
             console.error("You have already the authorization");
@@ -131,6 +160,24 @@ class NotificationPushService {
             outputArray[i] = rawData.charCodeAt(i);
         }
         return outputArray;
+    }
+
+    /**
+     *
+     * @param myRequest
+     */
+    static fetchServer(myRequest) {
+        fetch(myRequest).then((response) => {
+            if (response.ok) {
+                console.info("Server update successfully");
+                console.info(response);
+                return;
+            }
+            console.error(response);
+        }).catch(function (error) {
+            console.error("Failed to update Server");
+            console.error(error);
+        });
     }
 }
 
