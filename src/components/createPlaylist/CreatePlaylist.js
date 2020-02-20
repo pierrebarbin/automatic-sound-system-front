@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreatePlaylistTable from "./CreatePlaylistTable.js";
+import CreatePlaylistDetails from "./CreatePlaylistDetails.js";
 import InputPlaylist from "./InputPlaylist.js";
 import {useTranslation} from "react-i18next";
 import SVG from "react-inlinesvg";
@@ -12,6 +12,7 @@ const CreatePlaylist = () => {
   const [importUrl, setImportUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [responses, setResponses] = useState([]);
+  const [isSubmitable, setIsSubmitable] = useState(false);
 
   const onNameChange = event => setName(event.target.value);
 
@@ -19,6 +20,7 @@ const CreatePlaylist = () => {
     const value = event.target.value;
     setImportUrl(value);
     setLoading(true);
+
     //Axios mock
     setTimeout(function () {
       setResponses([
@@ -56,6 +58,7 @@ const CreatePlaylist = () => {
         }
       ]);
       setLoading(false);
+      setIsSubmitable(true);
     },3000);
     // Axios.post(CONSTANT.URLPLAYLIST, event.target.value).then()
 
@@ -73,7 +76,7 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListTitle"
-              className="bg-gray-600 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
+              className="bg-gray-600 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
               value={name}
               name="PlayListName"
               onChange={onNameChange}
@@ -86,19 +89,27 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListImportUrl"
-              className="bg-gray-600 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-900"
+              className="bg-gray-600 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-400"
               value={importUrl}
               name="UrlPlaylist"
               onChange={onImportChange}
               placeholder={t('create_playlist.form.import_url_placeholder')}
               disabled={loading}
           />
-          <CreatePlaylistTable loading={loading} responses={responses} />
+          <CreatePlaylistDetails loading={loading} responses={responses} />
+          {isSubmitable ? (
+              <button
+                  type="button"
+                  className="p-3 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline"
+              >
+                {t('create_playlist.form.create')}
+              </button>
+          ) : ""}
         </form>
       </div>
-      <div className="absolute right-0 top-0 mt-32 lg:mt-8 text-right">
+      <div className="absolute right-0 top-0 hidden sm:block sm:mt-24 sm lg:mt-8 text-right">
         <SVG
-            className="hidden sm:block sm:h-32 md:h-48 lg:h-72"
+            className="sm:h-32 md:h-48 lg:h-56"
             src={MusicComposeIllustration}
             title={t('create_playlist.title')}
         />

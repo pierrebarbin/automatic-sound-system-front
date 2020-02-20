@@ -1,79 +1,139 @@
 import React, { useState } from "react";
+import SVG from "react-inlinesvg";
+import EditIcon from "../../assets/icons/zondicons/edit-pencil.svg";
+import DeleteIcon from "../../assets/icons/zondicons/trash.svg";
+import ValidateIcon from "../../assets/icons/zondicons/checkmark.svg";
+import CancelIcon from "../../assets/icons/zondicons/close.svg";
+import {useTranslation} from "react-i18next";
 
-const CreatePlaylistItem = ({ response , removeItem }) => {
+const CreatePlaylistItem = ({ response, removeItem }) => {
+    const { t } = useTranslation();
 
-  const { title, artist, track, id } = response;
-  const [editedTitle, setTitre] = useState(title);
-  const [editedArtist, setArtiste] = useState(artist);
+    const { title , artist, track, id } = response;
 
-  const onTitreEditedChange = event => setTitre(event.target.value);
-  const onArtisteEditedChange = event => setArtiste(event.target.value);
+    const [editedTitle, setTitle] = useState(title);
+    const [editedArtist, setArtist] = useState(artist);
+    const [isEdition, setIsEdition] = useState(false);
 
-  const setReadOnly = () => {
-    var titre = document.getElementById("titre" + id);
-    var artiste = document.getElementById("artiste" + id);
-    if (titre === null || artiste === null) return;
-    titre.readOnly = !titre.readOnly;
-    artiste.readOnly = !artiste.readOnly;
-  };
+    const onTitleEditedChange = event => setTitle(event.target.value);
+    const onArtistEditedChange = event => setArtist(event.target.value);
 
-  const edit = () => {
-    if (editedTitle === "" && editedArtist === "") return;
-    setTitre(editedTitle);
-    setArtiste(editedArtist);
-    setReadOnly();
-  };
-  const cancel = () => {
-    setTitre(title);
-    setArtiste(artist);
-    setReadOnly();
-  };
-  return (
-    <tr>
-      <td>
-        <input
-          type="text"
-          value={editedTitle}
-          onChange={onTitreEditedChange}
-          name="titre"
-          id={"titre" + id}
-          readOnly
-        />
-      </td>
-      <td>
-        <input
-          type="text"
-          value={editedArtist}
-          onChange={onArtisteEditedChange}
-          name="artiste"
-          id={"artiste" + id}
-          readOnly
-        />
-      </td>
-      <td>{track.yttitle}</td>
-      <td id="action">
-        <fieldset>
-          <button type="button" onClick={() => setReadOnly()}>
-            E
-          </button>
-          <button type="button" onClick={() => removeItem()}>
-            X
-          </button>
-        </fieldset>
-        <fieldset>
-          {" "}
-          {/* Le masquer (ne l'afficher que lorsque l'on clique  sur edit),
-        je vais voir si je fais une fonction qui render ce bout. */}
-          <button type="button" onClick={() => edit()}>
-            V
-          </button>
-          <button type="button" onClick={() => cancel()}>
-            C
-          </button>
-        </fieldset>
-      </td>
-    </tr>
-  );
+    const edit = () => {
+        if (editedTitle === "" && editedArtist === "") {
+            return;
+        }
+        setTitle(editedTitle);
+        setArtist(editedArtist);
+        setIsEdition(false);
+    };
+
+    const cancel = () => {
+        setIsEdition(false);
+    };
+
+    const renderTitle = () => {
+        if(!isEdition){
+            return (
+                <span>{editedTitle}</span>
+            )
+        }
+
+        return (
+            <input
+                className="bg-gray-600 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
+                type="text"
+                value={editedTitle}
+                onChange={onTitleEditedChange}
+                name="title"
+                id={"title" + id}
+            />
+        );
+    };
+
+    const renderArtist = () => {
+        if(!isEdition){
+            return (
+                <span>{editedArtist}</span>
+            )
+        }
+
+        return (
+            <input
+                className="bg-gray-600 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
+                type="text"
+                value={editedArtist}
+                onChange={onArtistEditedChange}
+                name="artist"
+                id={"artist" + id}
+            />
+        );
+    };
+
+    return (
+        <div className="flex mt-2">
+            <div className="flex-1 px-1">
+                {renderTitle()}
+            </div>
+            <div className="flex-1 px-1">
+                {renderArtist()}
+            </div>
+            <div className="flex-1 px-1">
+                {track.yttitle}
+            </div>
+            <div className="flex-1 px-1">
+                {isEdition ? (
+                    <span>
+                        <button
+                            className="text-green-700 ml-2"
+                            type="button"
+                            onClick={() => edit()}
+                        >
+                            <SVG
+                                className="w-5 h-5 fill-current"
+                                src={ValidateIcon}
+                                title={t('create_playlist.form.validate')}
+                            />
+                        </button>
+                        <button
+                            className="text-red-800 ml-2"
+                            type="button"
+                            onClick={() => cancel()}
+                        >
+                            <SVG
+                                className="w-5 h-5 fill-current"
+                                src={CancelIcon}
+                                title={t('create_playlist.form.cancel')}
+                            />
+                        </button>
+                    </span>
+                    ) : (
+                    <button
+                        className="text-blue-700 ml-2"
+                        type="button"
+                        onClick={() => setIsEdition(true)}
+                    >
+                        <SVG
+                            className="w-5 h-5 fill-current"
+                            src={EditIcon}
+                            title={t('create_playlist.form.edit')}
+                        />
+                    </button>
+                    )
+                }
+                <button
+                    className="text-red-800 ml-2"
+                    type="button"
+                    onClick={() => removeItem()}
+                >
+                    <SVG
+                        className="w-5 h-5 fill-current"
+                        src={DeleteIcon}
+                        title={t('create_playlist.form.delete')}
+                    />
+                </button>
+            </div>
+        </div>
+    );
 };
 
 export default CreatePlaylistItem;
