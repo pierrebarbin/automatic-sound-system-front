@@ -3,8 +3,8 @@ import NotificationPushService from "./NotificationPushService.js";
 
 export function loadWorker() {
     const workerUri = "/service_worker.js";
-    const applicationKey = 'BMWF2oM--ZIsmlA2m1S8FXhdCtdqeuz4A_EZDW6Ax4A1dQi1qzYQvSrMwSIkaXkSNCbPIMr9XMhbPxP-63cN5Cw';
-    const apiEndpoint = "";
+    const applicationKey = 'BItoVHgEImb1oDvlVaCchsKAHOQNjbclddgfp7mlfZUmKwMIgqlgI5t8bBYRWWNlic3uViiU4ZbIRU6rmRuX_Ac';
+    const apiEndpoint = "http://localhost:8001/api/notification/register/";
 
 //Here check if we can use ServiceWorker and Push notification
     if (!AppServiceWorker.isSupported() || !NotificationPushService.isSupported()) {

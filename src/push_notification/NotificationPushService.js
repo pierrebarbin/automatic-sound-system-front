@@ -52,6 +52,10 @@ class NotificationPushService {
             });
     }
 
+    unSubscribeClient() {
+
+    }
+
     /**
      * Sends the information to the server in order to send it the notifications
      *
