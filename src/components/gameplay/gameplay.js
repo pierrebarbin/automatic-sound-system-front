@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import PropTypes from 'prop-types'
-// import GameSearch from './GameSearch'
-// import YtPlayer from //unTruc qui arrivera plus tard
+import GameSearch from '../../service/GameSearch'
+import YtPlayer from '../common/ytplayer'
 
 
 // voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
@@ -14,7 +14,7 @@ const Gameplay = props => {
         url: "https://www.youtube.com/watch?v=y6120QOlsfU",
         title: "Sandstorm",
         singer: "Darude",
-        bArtiste: true,
+        bSinger: true,
         bTitle: true
     },
     {
@@ -22,7 +22,7 @@ const Gameplay = props => {
         url: "https://www.youtube.com/watch?v=zA52uNzx7Y4",
         title: "Blue",
         singer: "Eiffel 65",
-        bArtiste: true,
+        bSinger: true,
         bTitle: true
     },
     {
@@ -30,7 +30,7 @@ const Gameplay = props => {
         url: "https://www.youtube.com/watch?v=SYnVYJDxu2Q",
         title: "Rasputin",
         singer: "Boney M.",
-        bArtiste: true,
+        bSinger: true,
         bTitle: true
     },
     {
@@ -38,7 +38,7 @@ const Gameplay = props => {
         url: "https://www.youtube.com/watch?v=Nnu1E5Kslig",
         title: "Stairway To Heaven",
         singer: "Led Zeppelin",
-        bArtiste: true,
+        bSinger: true,
         bTitle: true
     }
   ]);
@@ -72,7 +72,8 @@ const Gameplay = props => {
   }
 
   const handleSubmit = (event) => {
-    alert(`call le levenstein avec  ${valueInput} et les reponses`)
+    // alert(`call le levenstein avec  ${valueInput} et les reponses`)
+    alert(GameSearch(valueInput,musique[0].singer,musique[0].title,musique[0].bArtiste,musique[0].bTitle))
 }
 
   return (
