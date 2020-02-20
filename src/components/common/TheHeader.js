@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 import HomeIcon from '../../assets/icons/zondicons/home.svg';
@@ -7,11 +7,17 @@ import { useTranslation } from 'react-i18next';
 import {
     Link
 } from "react-router-dom";
-import { logOut } from '../../service/loginService';
+import { logOut} from '../../service/loginService';
 
 
 const TheHeader = props => {
     const { t } = useTranslation();
+    const {username} = props;
+    const LogOut = () =>{
+        logOut();
+        props.refreshUsername();
+        
+    }
     return (
         <div className="w-full p-4 fixed z-50">
             <div className="box h-16 flex items-center box-border">
@@ -28,11 +34,13 @@ const TheHeader = props => {
                             />
                         </Link>
                     </div>
+                    
+                    <div>{username}</div>
                     <div>
                         <Link
                             to="/login"
                             className="block p-2 bg-gray-800 rounded-full hover:shadow-lg "
-                            onClick={()=>logOut()}
+                            onClick={()=>LogOut()} 
                         >
                             <SVG
                                 src={LoginIcon}

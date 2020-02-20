@@ -1,8 +1,8 @@
-import React, { useState, Redirect } from 'react';
-import {logIn, isUserLog} from '../../../service/loginService'
-import { useHistory } from "react-router-dom";
+import React, { useState} from 'react';
+import {logIn} from '../../../service/loginService';
+import { useHistory, Link } from "react-router-dom";
 
-const Login = () => {
+const Login = props => {
     let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -14,29 +14,38 @@ const Login = () => {
         setPassword(event.target.value || '');
 
     };
-    const LogIn= () =>{
-        const res = logIn(email, password);
-        //if(res === 200)
-        if(isUserLog())
-            history.push("/");
-        //if(res === 404)
-        else
-            setMsgErrors("Email ou mot de passe invalide.");
+    const LogIn= (e) =>{
+        e.preventDefault();
+       logIn(email, password)
+       .then((response_status) => {
+           //Redirection sur la page d'acceuil
+            if(response_status === 200){
+                history.push("/");
+                props.refreshUsername();
+            }
+            //afficher erreur(s) d'identification
+            if(response_status === 404)
+                setMsgErrors("Email ou mot de passe invalide.");
+       })
+        
     };
         
     return (
     <div>
-        <h1>Log In</h1>
+        <h1>Sign in</h1>
         <p style={{color: 'red'}}>{msgErrors}</p>
-        <form>
+        <form onSubmit={LogIn}>
             <div>
         <label htmlFor="email" >Email :</label>
-        <input id="email" type="text" value={email || ''} onChange={onEmailChange}/>
+        <input id="email" type="email" value={email || ''} onChange={onEmailChange} required/>
         <label htmlFor="password" >Password :</label>
-        <input id="password" type="password" value={password || ''} onChange={onPasswordChange}/>
+        <input id="password" type="password" value={password || ''} onChange={onPasswordChange} required/>
         </div>
-        <button type="button" onClick={() => LogIn()}>Log In</button>
+        <button>Log In</button>
         </form>
+        <div>
+            <Link to="/register">Sign Up</Link>
+        </div>
     </div>
     );
 };

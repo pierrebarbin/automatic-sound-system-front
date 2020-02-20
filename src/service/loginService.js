@@ -1,58 +1,79 @@
-import {axios} from './axios'
-import { useState } from 'react';
+import {axios} from './axios.js'
 
-export const logIn= (email, password)=>{
-    axios.post('/login',{
-        email: email,
-        password: password
-    })
-    .then(function (response) {
-        //code qui se trouve pour l'instant dans catch
-      })
-    .catch(function (error) {
-       //console.log({error});
+//Se connecter
+ const logIn= (email, password)=>{
+    return new Promise(function(resolve, reject) {
+        axios.post('/login',{
+            email: email,
+            plainPassword: password
+        })
+        .then(function (response) {
+            //Création du token si la requête a réussie
+            if(response.status === 200){
+                localStorage.setItem('login_token', JSON.stringify(response.data.token));
+            }
+            //retour du status
+            resolve(response.status);
+          })
+        .catch(function (error) {
+           console.log({error});
+           reject(error);
+        });
+    });
     
-       //simuler une réponse tant que API non correct
-       const response = {
-           status:200,
-           statusText: "Ok",
-           data:{
-               token: "EKJR5E8854GD5"
-           }
-       }
-       if(response.status === 200){
-        //se loger
-            localStorage.setItem('login_token', JSON.stringify(response.data.token));
-        }
-    }
-    );
 }
 
-export const logOut= ()=>{
-
-    axios.post('/logout',{
+//Se déconnecter
+ const logOut= ()=>{
+    localStorage.removeItem('login_token');
+    /*axios.post('/logout',{
         token:localStorage.getItem('login_token')
     })
     .then(function (response) {
-        //code qui se trouve pour l'instant dans catch
+        //Supprimer le token si la requête a réussie
+        if(response.status === 200){
+                localStorage.removeItem('login_token');
+            }
       })
     .catch(function (error) {
-       //console.log({error});
-    
-       //simuler une réponse tant que API non correct
-       const response = {
-           status:200,
-           statusText: "Ok"
-       }
-       if(response.status === 200){
-        //se loger
-            localStorage.removeItem('login_token');
-        }
+       console.log({error});
     }
-    );
+    );*/
 }
-export const isUserLog = () =>{
-    if(localStorage.getItem('login_token') !== "")
+// Renvoit un booléen : true si un utilisateur est connecté
+ const isUserLog = () =>{
+    if(localStorage.getItem('login_token') !== null)
         return (true);
     return (false);
 }
+
+const getUserLog=()=>{
+        return new Promise(function(resolve, reject) {
+          if(isUserLog()){
+            axios.get('/userlog',{
+                headers:{
+                    Authorization : `Bearer ${localStorage.getItem('login_token')}`
+                }
+            })
+            .then((response)=>{
+                if(response.status ===200)
+                    resolve(response.data);
+            })
+            .catch((error)=>{
+                console.log({error});
+                const response={
+                    status:200,
+                    data:{
+                        username:"HookSS"
+                    }
+                }
+                if(response.status ===200)
+                    resolve(response.data);
+            })
+        }
+        else
+            resolve("");
+        });
+}
+
+export {logIn,logOut,isUserLog, getUserLog} 
