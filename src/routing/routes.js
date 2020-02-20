@@ -1,19 +1,19 @@
 import Index from "../components/pages/Index.js";
 import Login from "../components/pages/auth/Login.js";
-import CreatePlaylist from "../components/createPlaylist/CreatePlaylist.js";
+import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist.js";
 
 export const routes = [
-  {
-    path: "/",
-    component: Index,
-    exact: true
-  },
-  {
-    path: "/login",
-    component: Login
-  },
-  {
-    path: "/playlist/create",
-    component: CreatePlaylist
-  }
+    {
+        path: "/",
+        component: Index,
+        exact: true
+    },
+    {
+        path: "/login",
+        component: Login
+    },
+    {
+        path: "/playlist/create",
+        component: CreatePlaylist
+    }
 ];
