@@ -76,7 +76,7 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListTitle"
-              className="bg-gray-600 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
+              className="bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 mt-1"
               value={name}
               name="PlayListName"
               onChange={onNameChange}
@@ -89,7 +89,7 @@ const CreatePlaylist = () => {
           </label>
           <InputPlaylist
               id="playListImportUrl"
-              className="bg-gray-600 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-400"
+              className="bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline w-full sm:w-64 md:w-2/5 mt-1 placeholder-gray-400"
               value={importUrl}
               name="UrlPlaylist"
               onChange={onImportChange}

@@ -40,7 +40,7 @@ const CreatePlaylistItem = ({ response, removeItem }) => {
 
         return (
             <input
-                className="bg-gray-600 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
+                className="bg-gray-500 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
                 type="text"
                 value={editedTitle}
                 onChange={onTitleEditedChange}
@@ -59,7 +59,7 @@ const CreatePlaylistItem = ({ response, removeItem }) => {
 
         return (
             <input
-                className="bg-gray-600 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
+                className="bg-gray-500 text-gray-900 p-1 rounded-lg focus:outline-none focus:shadow-outline w-full"
                 type="text"
                 value={editedArtist}
                 onChange={onArtistEditedChange}
