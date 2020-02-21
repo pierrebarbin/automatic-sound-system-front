@@ -5,7 +5,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import UserList from "./user/UserList";
 import TheRightSidePanel from "./common/TheRightSidePanel";
 import { getUserLog } from '../service/loginService';
-import Ytplayer from './common/ytplayer';
+import Gameplay from './pages/gameplay/gameplay';
 
 class App extends Component {
 
@@ -79,12 +79,7 @@ class App extends Component {
         return (
             <div className="bg-gray-800 text-gray-500 min-h-full">
                 <Router>
-                    <TheHeader username={this.state.usernameLog} refreshUsername={this.refreshUsername}/>
-                    <Ytplayer/>
-                    <div className="w-4/5 pt-24 px-4">
-                        <RouteConfig refreshUsername={this.refreshUsername}/>
-                    </div>
-                    <TheRightSidePanel users={this.state.users}/>
+                    <Gameplay/>
                 </Router>
             </div>
         );

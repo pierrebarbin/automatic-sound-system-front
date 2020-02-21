@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Classement from "../../classement/Classement";
 import GameplayHistory from "../../gameplay/GameplayHistory";
 import { useTranslation } from "react-i18next";
@@ -57,6 +57,7 @@ const Gameplay = props => {
     const [nbMusique, setNbMusique] = useState(0);
     const [currentMusique,setCurrentMusique]=useState([])
     //#endregion
+    const childRef = useRef();
 
     //#region useEffect
     useEffect(() => {
@@ -67,9 +68,19 @@ const Gameplay = props => {
             console.log({musique})
 
             if (window.confirm("Commencer la partie")) {
-                setInit(false)
-                setIsActive(!isActive);
-                // TODO lancer le player et le timer
+                
+                let ReadyInterval = window.setInterval(()=>{
+                    if(childRef.current.playerIsReady()){
+                        window.clearInterval(ReadyInterval);
+                        setInit(false)
+                        setIsActive(!isActive);
+                        // TODO lancer le player et le timer
+                        childRef.current.nextVideo(); 
+                    }
+                },2000)
+                
+            } else {
+                window.location.reload();
             }
             getClassement();
         }
@@ -95,6 +106,9 @@ const Gameplay = props => {
                 }else{
                     // TODO afficher le score
                 }
+                console.log("stop")
+                childRef.current.PauseVideo();
+                setSeconds(setSeconds => 30);
             }
         } else if (!isActive && seconds !== 0) {
             clearInterval(interval);
@@ -203,7 +217,7 @@ const Gameplay = props => {
     return (
         <div className="app">
             <div>
-                <YtPlayer musique={musique} />
+                <YtPlayer musique={musique} ref={childRef}/>
             </div>
             <div className="time">
                 {waiting?'Waiting':"Musique numéro : " + nbMusique}

@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState,forwardRef,useImperativeHandle} from 'react';
 import YouTube from 'react-youtube';
 import soundfile from '../../assets/sounds/blindtest.mp3'
 
-const Ytplayer = props => {
+const Ytplayer = forwardRef((props, ref) => {
 
     const [url, SetUrl] = useState(props.musique);
+
+    const [Player,setYtPlayer] = useState(undefined);
 
     // const [url, setUrl] = useState([
     //     {id:"GUenj-OKjWE"},
@@ -16,7 +18,7 @@ const Ytplayer = props => {
 
     const config = { attributes: true, childList: true, subtree: true };
 
-    var Player = {};
+    // var Player = undefined;
 
     const Rehide = (mutationsList, observer) => {
         for(let mutation of mutationsList) {
@@ -30,10 +32,10 @@ const Ytplayer = props => {
 
     const SetPlayer = (event) => {
         // access to player in all event handlers via event.target
-        Player = event.target;
+        // Player = event.target;
+        setYtPlayer(event.target);
+        
         // document.getElementById("audio").play();     
-       
-        nextVideo(); // démarre la première vidéo
 
         if ('mediaSession' in navigator){ // anti-triche overlay audio win10
             navigator.mediaSession.metadata = new window.MediaMetadata({
@@ -48,32 +50,48 @@ const Ytplayer = props => {
    
     };
 
-    const PauseVideo = () => {
-        Player.pauseVideo();
-        // document.getElementById("audio").pause();
-    }
+    useImperativeHandle(ref, () => ({
 
-    const PlayVideo = () => {
-        Player.playVideo();
-        // document.getElementById("audio").play();
-    }
+        playerIsReady: ()=>{
+            if(Player == undefined){
+                return false;  
+            }
+            else{
+                return true;
+            }
+        },
+        PauseVideo: () => {
+            Player.pauseVideo();
+            // document.getElementById("audio").pause();
+        },
+        PlayVideo: () => {
+            if (Player != undefined){
+                Player.playVideo();
+                return true;
+            }
+            else{
+                return false;
+            }
+            // document.getElementById("audio").play();
+        },
 
-    const nextVideo = () => {
-        if ( url.length ){
-            let thisID = url.shift().url;
-            thisID = thisID.match(/v=[^&]+/gm)[0].replace("v=","");
+        nextVideo: () => {
+            if ( url.length ){
+                let thisID = url.shift().url;
+                thisID = thisID.match(/v=[^&]+/gm)[0].replace("v=","");
 
-            Player.loadVideoById({
-                videoId:thisID,
-                startSeconds:20,
-                endSeconds:40
-            });
+                Player.loadVideoById({
+                    videoId:thisID,
+                    startSeconds:20,
+                    endSeconds:40
+                });
+            }
+        },
+
+        ClearCue: () => { // vide les vidéos en attente
+            SetUrl(url.length = 0);
         }
-    }
-
-    const ClearCue = () => { // vide les vidéos en attente
-        SetUrl(url.length = 0);
-    }
+    }));
 
     const opts = {
         height: '0',
@@ -100,6 +118,6 @@ const Ytplayer = props => {
             <audio id="audio" controls={true} autoPlay={true} loop={true} src={soundfile} className="w-0"></audio>
         </div>
     );
-}
+})
 
 export default Ytplayer;
