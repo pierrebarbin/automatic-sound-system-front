@@ -6,11 +6,13 @@ export function getClassementPlaylist(id) {
 }
 export function getPlaylist(id) {
     var music = [];
-    axios.get("").then(res => (res = music));
+    axios.get(`playlists/${id}`).then(res => {
+        res = music;
+    });
     return music;
 }
 
 export function postScore(score) {
-    axios.post("", score);
+    axios.post("URL_A_CHANGER", score);
     //TODO : Peut-être renvoyer un bool pour dire que c'est réussi ou non.
 }

@@ -6,6 +6,8 @@ export function getClassement(idPlaylist) {
     if (idPlaylist !== undefined) {
         url = `${url}/playlist/${idPlaylist}`;
     }
-    axios.get(url).then(res => (classement = res));
+    axios.get(url).then(res => {
+        classement = res;
+    });
     return classement;
 }
