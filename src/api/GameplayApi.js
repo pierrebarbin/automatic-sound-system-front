@@ -6,7 +6,7 @@ export function getClassementPlaylist(id) {
 }
 export function getPlaylist(id) {
     var music = [];
-    axios.get(`playlists/${id}`).then(res => {
+    axios.get(`/playlists/${id}`).then(res => {
         res = music;
     });
     return music;

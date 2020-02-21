@@ -13,7 +13,7 @@ function get(url) {
 }
 
 export function getProfile(id) {
-    return get(`users/${id}`);
+    return get(`/users/${id}`);
 }
 export function getPlaylist(idUser) {
     return get(`URL_A_CHANGER${idUser}`);
