@@ -4,31 +4,81 @@ import soundfile from '../../assets/sounds/blindtest.mp3'
 
 const Ytplayer = props => {
 
-    const [url, SetUrl] = useState("dQw4w9WgXcQ");
+    const [url, SetUrl] = useState([
+        {url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},
+        {url:"https://www.youtube.com/watch?v=GUenj-OKjWE"},
+        {url:"https://www.youtube.com/watch?v=LZAFo4jXhW0"},
+        {url:"https://www.youtube.com/watch?v=jtnxKJbxLn8"},
+        {url:"https://www.youtube.com/watch?v=dv13gl0a-FA"},
+        {url:"https://www.youtube.com/watch?v=pVHKp6ffURY"}]);
+
+    // const [url, setUrl] = useState([
+    //     {id:"GUenj-OKjWE"},
+    //     {id:"LZAFo4jXhW0"},
+    //     {id:"dQw4w9WgXcQ"},
+    //     {id:"dv13gl0a-FA"},
+    //     {id:"pVHKp6ffURY"},
+    //     {id:"rY-FJvRqK0E"}]);
+
+    const config = { attributes: true, childList: true, subtree: true };
 
     var Player = {};
+
+    const Rehide = (mutationsList, observer) => {
+        for(let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+                observer.disconnect();
+                Player.setSize(0,0);
+                observer.observe( document.getElementById('player') , config);
+            }
+        }
+    }
 
     const SetPlayer = (event) => {
         // access to player in all event handlers via event.target
         Player = event.target;
-        document.getElementById("audio").play();     
-        
-        if ('mediaSession' in navigator){
+        // document.getElementById("audio").play();     
+       
+        nextVideo(); // démarre la première vidéo
+
+        if ('mediaSession' in navigator){ // anti-triche overlay audio win10
             navigator.mediaSession.metadata = new window.MediaMetadata({
                 title: "Hep hep tu fais quoi la ?",
                 artist: "Pas de triche !",
             });
         }
+
+        // observe les modif du dom sur le player pour empêcher le resize
+        const observer = new window.MutationObserver(Rehide);
+        observer.observe( document.getElementById('player') , config);
+   
     };
 
     const PauseVideo = () => {
         Player.pauseVideo();
-        document.getElementById("audio").pause();
+        // document.getElementById("audio").pause();
     }
 
     const PlayVideo = () => {
         Player.playVideo();
-        document.getElementById("audio").play();
+        // document.getElementById("audio").play();
+    }
+
+    const nextVideo = () => {
+        if ( url.length ){
+            let thisID = url.shift().url;
+            thisID = thisID.match(/v=[^&]+/gm)[0].replace("v=","");
+
+            Player.loadVideoById({
+                videoId:thisID,
+                startSeconds:20,
+                endSeconds:40
+            });
+        }
+    }
+
+    const ClearCue = () => { // vide les vidéos en attente
+        SetUrl(url.length = 0);
     }
 
     const opts = {
@@ -47,11 +97,13 @@ const Ytplayer = props => {
     return (
         <div>
             <YouTube
-                videoId={url}
+                id="player"
+                // videoId={url}
                 opts={opts}
                 onReady={SetPlayer}
+                onResize={Rehide}
             /> 
-            <audio id="audio" autoPlay={true} loop={true} src={soundfile}></audio>
+            <audio id="audio" controls={true} autoPlay={true} loop={true} src={soundfile} className="w-0"></audio>
         </div>
     );
 }
