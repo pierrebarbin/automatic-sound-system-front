@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import PropTypes from 'prop-types'
 import GameSearch from '../../service/GameSearch'
 import YtPlayer from '../common/ytplayer'
+import levenshtein from 'js-levenshtein';
 
 
 // voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
@@ -46,10 +47,23 @@ const Gameplay = props => {
   const [seconds, setSeconds] = useState(20);
   const [isActive, setIsActive] = useState(false);
   const [valueInput, setValueInput] = useState("");
+  const [init, setInit] = useState(true);
 
   useEffect(() => {
+
     let interval = null;
-    
+
+    if(init){
+
+      if ( window.confirm( "Commencer la partie" ) ) {
+        setInit(false)
+        setIsActive(!isActive);
+        // TODO lancer le player et le timer
+      } else {
+        window.location.reload();
+      }
+    }
+
     if (isActive) {
       if(seconds != 0){
         interval = setInterval(() => {
@@ -67,24 +81,21 @@ const Gameplay = props => {
 
   }, [isActive, seconds]);
 
-  function toggle() {
-    setIsActive(!isActive);
-  }
 
   const handleSubmit = (event) => {
-    // alert(`call le levenstein avec  ${valueInput} et les reponses`)
-    alert(GameSearch(valueInput,musique[0].singer,musique[0].title,musique[0].bArtiste,musique[0].bTitle))
-}
+    // TODO lancer le levenshtein
+    console.log({valueInput})
+    event.preventDefault();
+
+  }
 
   return (
     <div className="app">
+      <div>
+        <YtPlayer musique={musique}/>
+      </div>
       <div className="time">
         {seconds}s
-      </div>
-      <div>
-        <button onClick={toggle}>
-          {isActive ? '' : 'Start'}
-        </button>
       </div>
       <br/>
       <div>
@@ -94,7 +105,7 @@ const Gameplay = props => {
             value={valueInput}
             onChange={e => setValueInput(e.target.value)}
           />
-          <input type="submit" value="submit"/>
+          <input type="submit" value="Envoyer" /> 
         </form>
       </div>
     </div>
