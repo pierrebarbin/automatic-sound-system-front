@@ -1,18 +1,27 @@
 import React from "react";
 
-const InputPlaylist = ({ id,className, value, name, onChange, placeholder,disabled }) => {
-  return (
-    <input
-        id={id}
-        className={className}
-        value={value}
-        type="text"
-        onChange={onChange}
-        name={name}
-        placeholder={placeholder}
-        disabled={disabled}
-    />
-  );
+const InputPlaylist = ({
+    id,
+    className,
+    value,
+    name,
+    onChange,
+    placeholder,
+    disabled
+}) => {
+    return (
+        <input
+            id={id}
+            className={className}
+            value={value}
+            type="text"
+            onChange={onChange}
+            name={name}
+            placeholder={placeholder}
+            disabled={disabled}
+            autoComplete="false"
+        />
+    );
 };
 
 export default InputPlaylist;
