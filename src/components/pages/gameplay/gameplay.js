@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import GameSearch from "../../../service/GameSearch.js";
 import YtPlayer from "../../common/ytplayer.js";
 
-// voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
+// pour le timer voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 
 
 const Gameplay = props => {
@@ -43,33 +43,35 @@ const Gameplay = props => {
             singer: "Led Zeppelin",
             bSinger: true,
             bTitle: true
-        }
+        },
     ]);
-
     const { t } = useTranslation();
-    const [seconds, setSeconds] = useState(20);
+    const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const [valueInput, setValueInput] = useState("");
     const [init, setInit] = useState(true);
     const [gameHistory, setGameHistory] = useState([]);
     const [score, setScore] = useState(0);
     const [classementPlaylist, setClassementPlaylist] = useState([]);
+    const [waiting,setWaiting] = useState(false);
+    const [nbMusique, setNbMusique] = useState(0);
+    const [currentMusique,setCurrentMusique]=useState([])
     //#endregion
 
     //#region useEffect
     useEffect(() => {
-
+        
         let interval = null;
-
+        
         if (init) {
+            console.log({musique})
 
             if (window.confirm("Commencer la partie")) {
                 setInit(false)
                 setIsActive(!isActive);
                 // TODO lancer le player et le timer
-            } else {
-                window.location.reload();
             }
+            getClassement();
         }
 
         if (isActive) {
@@ -78,8 +80,21 @@ const Gameplay = props => {
                     setSeconds(seconds => seconds - 1);
                 }, 1000);
             } else {
-                console.log("stop")
-                setSeconds(setSeconds => 30);
+                if(nbMusique <= musique.length+1){
+                    if(waiting){
+                        setSeconds(setSeconds => 10);
+                        setWaiting(false)
+                    }else{
+                        setNbMusique(nbMusique+1)
+                        console.log({nbMusique})
+                        setCurrentMusique(musique[nbMusique])
+                        console.log({currentMusique})
+                        setSeconds(setSeconds => 5);
+                        setWaiting(true)
+                    }
+                }else{
+                    // TODO afficher le score
+                }
             }
         } else if (!isActive && seconds !== 0) {
             clearInterval(interval);
@@ -91,11 +106,13 @@ const Gameplay = props => {
     //#endregion
 
     const handleSubmit = (event) => {
-        // TODO lancer le levenshtein
-        console.log({ valueInput })
+        // alert(call le levenstein avec  ${valueInput} et les reponses)
+        console.log({nbMusique})
+        console.log(valueInput,musique[nbMusique].singer,musique[nbMusique].title,musique[nbMusique].bSinger,musique[nbMusique].bTitle)
+        var result = GameSearch(valueInput,musique[nbMusique].singer,musique[nbMusique].title,musique[nbMusique].bSinger,musique[nbMusique].bTitle) ;
+        alert(result);
         event.preventDefault();
-
-    };
+    }
 
     const addGameToHistory = musique => {
         setGameHistory(...gameHistory, musique);
@@ -189,8 +206,11 @@ const Gameplay = props => {
                 <YtPlayer musique={musique} />
             </div>
             <div className="time">
+                {waiting?'Waiting':"Musique numéro : " + nbMusique}
+            </div>
+            <div className="time">
                 {seconds}s
-      </div>
+            </div>
             <br />
             <div>
                 <form onSubmit={handleSubmit}>

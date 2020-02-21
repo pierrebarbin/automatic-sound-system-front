@@ -4,13 +4,7 @@ import soundfile from '../../assets/sounds/blindtest.mp3'
 
 const Ytplayer = props => {
 
-    const [url, SetUrl] = useState([
-        {url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},
-        {url:"https://www.youtube.com/watch?v=GUenj-OKjWE"},
-        {url:"https://www.youtube.com/watch?v=LZAFo4jXhW0"},
-        {url:"https://www.youtube.com/watch?v=jtnxKJbxLn8"},
-        {url:"https://www.youtube.com/watch?v=dv13gl0a-FA"},
-        {url:"https://www.youtube.com/watch?v=pVHKp6ffURY"}]);
+    const [url, SetUrl] = useState(props.musique);
 
     // const [url, setUrl] = useState([
     //     {id:"GUenj-OKjWE"},
