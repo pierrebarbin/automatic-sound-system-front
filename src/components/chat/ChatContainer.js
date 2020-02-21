@@ -7,9 +7,15 @@ const ChatContainer = props => {
 
     const [messages, setMessages] = useState([]);
 
-    /*useEffect(() => {
-        // Ajoute les derniers messages depuis le dernier load
-        axios.get('/chats/load')
+    useEffect(() => {
+        // Ajoute les derniers messages depuis le dernier load ou tous les messages si il n'y en a pas
+        axios.get(
+            (messages.length <= 0) ? ('/chats/load', {
+                params: {
+                    "after": messages.lastIndexOf().CreatedAt
+                }
+            }) :
+            ('/chats/load'))
             .then(function (response) {
                 setMessages(response.data)
             })
@@ -17,8 +23,7 @@ const ChatContainer = props => {
                 // handle error
                 console.log(error);
             });
-        console.log("aze", messages);
-    });*/
+    });
 
     const addMessage = content => {
         if(content === ''){
@@ -26,24 +31,10 @@ const ChatContainer = props => {
         }
         console.log(content);
         axios.post('/chats', {
-                "message": content
+                message: content
             })
             .then(function (postResponse) {
-                console.log("post")
-                // Ajoute les derniers messages depuis le dernier load
-                /*axios.get('/chats/load', {
-                    params: {
-                        lastDate: messages.lastIndexOf().CreatedAt
-                    }
-                })
-                    .then(function (response) {
-                        setMessages({...messages, response});
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    });*/
-                console.log(messages);
+                console.log('post réussi');
             })
             .catch(function (error) {
                 console.log(error);

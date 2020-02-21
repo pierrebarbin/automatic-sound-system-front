@@ -3,7 +3,7 @@ import {axios} from './axios.js'
 //Se connecter
  const logIn= (email, password)=>{
     return new Promise(function(resolve, reject) {
-        axios.post('/login',{
+        axios.post('/../login',{
             email: email,
             plainPassword: password
         })
