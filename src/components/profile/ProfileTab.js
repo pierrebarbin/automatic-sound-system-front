@@ -1,22 +1,29 @@
 import React from "react";
 
-const ProfileTab = ({ headers, elements, component }) => {
+const ProfileTab = ({ headers, elements, component: Component }) => {
     return (
         <div>
-            <div>
+            <div className="flex flex-row text-lg">
                 {headers.map(head => {
-                    return <div key={head}>{head}</div>;
+                    return (
+                        <div className="flex-1 font-semibold"
+                            key={head}
+                        >
+                            {head}
+                        </div>
+                    );
                 })}
             </div>
-            {elements.map(element => {
-                var Component = component;
-                return (
-                    <Component
-                        key={element.id}
-                        componentsParameters={element}
-                    />
-                );
-            })}
+            <div>
+                {elements.map(element => {
+                    return (
+                        <Component
+                            key={element.id}
+                            componentsParameters={element}
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 };

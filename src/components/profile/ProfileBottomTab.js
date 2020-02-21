@@ -3,9 +3,16 @@ import ProfilTab from "./ProfileTab";
 import ProfilFollowItem from "./ProfileFollowItem";
 import ProfilPlaylistItem from "./ProfilePlaylistItem";
 import ProfilHistoryItem from "./ProfileHistoryItem";
+import {useTranslation} from "react-i18next";
+
 const ProfileBottomTab = () => {
+    const { t } = useTranslation();
+
     const [tab, setTab] = useState();
+    const [currentTab, setCurrentTab] = useState('Playlist');
+
     const getTab = tab => {
+        setCurrentTab(tab);
         var elements = [];
         var component = "";
         var headers = [];
@@ -186,21 +193,40 @@ const ProfileBottomTab = () => {
             />
         );
     };
+
     useEffect(() => {
-        getTab();
+        getTab('Playlist');
     }, []);
+
     return (
-        <div>
+        <div className="mt-10 bg-gray-900 p-4 shadow-lg rounded-lg">
             <div>
-                <button onClick={() => getTab("Playlist")}>Playlist</button>
-                <button onClick={() => getTab("Historique")}>
-                    Historiques
+                <button
+                    className={`px-3 py-2 rounded-full cursor-pointer focus:outline-none ${currentTab === "Playlist"? 'bg-gray-800' : ''}`}
+                    onClick={() => getTab("Playlist")}
+                >
+                    {t('profile.tab.playlist')}
                 </button>
-                <button onClick={() => getTab("Follow")}>Follow</button>
-                <button onClick={() => getTab("Badges")}>
-                    Badge/Achievement
+                <button
+                    className={`px-3 py-2 rounded-full cursor-pointer focus:outline-none ${currentTab === "Historique"? 'bg-gray-800' : ''}`}
+                    onClick={() => getTab("Historique")}
+                >
+                    {t('profile.tab.history')}
+                </button>
+                <button
+                    className={`px-3 py-2 rounded-full cursor-pointer focus:outline-none ${currentTab === "Follow"? 'bg-gray-800' : ''}`}
+                    onClick={() => getTab("Follow")}
+                >
+                    {t('profile.tab.follow')}
+                </button>
+                <button
+                    className={`px-3 py-2 rounded-full cursor-pointer focus:outline-none ${currentTab === "Badges"? 'bg-gray-800' : ''}`}
+                    onClick={() => getTab("Badges")}
+                >
+                    {t('profile.tab.badges')}
                 </button>
             </div>
+            <div className="separator-b mt-2"/>
             <div>{tab}</div>
         </div>
     );

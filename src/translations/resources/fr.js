@@ -53,6 +53,24 @@ export default {
             challenge: "Defier"
         }
     },
+    profile: {
+        form: {
+            inputs: {
+                avatar: "Modifier l'avatar",
+                login: "Login",
+                email: "Email",
+                password: "Mot de passe",
+                confirm_password: "Confirmation",
+                submit: "Valider"
+            }
+        },
+        tab: {
+            playlist: "Playlist",
+            history: "Historique",
+            follow: "Follow",
+            badges: "Badge/Succès",
+        }
+    },
     classement: {
         joueur: "Joueur",
         score: "Score"
