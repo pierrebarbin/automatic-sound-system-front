@@ -74,5 +74,24 @@ export default {
     classement: {
         joueur: "Joueur",
         score: "Score"
+    },
+    login: {
+        login: "Connexion",
+        inputs: {
+            email: "Email",
+            password: "Mot de passe",
+        },
+        signup: "S'inscrire",
+        forgot_password: "Mot de passe oublié?"
+    },
+    register: {
+        register: "S'inscrire",
+        inputs: {
+            email: "Email",
+            login: "Pseudo",
+            password: "Mot de passe",
+            confirm_password: "Confirmer mot de passe",
+        },
+        login: "Déjà un compte?"
     }
 };
