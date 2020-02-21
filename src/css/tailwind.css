@@ -22,9 +22,13 @@
     @apply bg-gray-900 rounded-lg elevation-2 px-4;
 }
 
-.left-side-container {
-    height: calc(100% - 5rem);
+.screen-without-header {
+    height: calc(100vh - 5rem);
     top: 5rem;
+}
+
+.left-side-container {
+    @apply screen-without-header;
 }
 
 .left-side-container .content{
