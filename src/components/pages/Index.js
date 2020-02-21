@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
 import Classement from "../classement/Classement.js";
 import TablePlayList from "../home/HomeTablePlaylist";
-const Index = () => {
+import SVG from "react-inlinesvg";
+import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
+
+const Index = props => {
     const { t } = useTranslation();
     const [classementItems, setClassementItems] = useState([]);
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
         getClassement();
+        getPlaylist();
     }, []);
+
     const getClassement = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setClassementItems([
@@ -91,9 +95,7 @@ const Index = () => {
             }
         ]);
     };
-    useEffect(() => {
-        getPlaylist();
-    }, []);
+
     const getPlaylist = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setPlaylists([
@@ -128,31 +130,43 @@ const Index = () => {
             }
         ]);
     };
+
     return (
         <div>
-            <div>
-                <h2> Descritpion général de l'application : </h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aliquam vitae lorem turpis. Etiam sollicitudin, lectus sit
-                    amet gravida hendrerit, lacus augue viverra dolor, sed
-                    sagittis odio nulla vitae tellus. Suspendisse ut auctor
-                    quam. Quisque volutpat ex nunc, non interdum enim hendrerit
-                    vitae. Sed a aliquam tortor. Praesent mi tellus, volutpat a
-                    dictum non, sagittis id nulla. Quisque rhoncus mattis ipsum
-                    quis lacinia. Mauris varius nibh id metus venenatis
-                    lobortis.
-                </p>
+            <div className="flex items-center justify-center screen-without-header">
+                <div className="w-3/5 px-20">
+                    <h1 className="text-6xl font-bold">Musicass</h1>
+                    <p className="text-lg leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Aliquam vitae lorem turpis. Etiam sollicitudin, lectus sit
+                        amet gravida hendrerit, lacus augue viverra dolor, sed
+                        sagittis odio nulla vitae tellus. Suspendisse ut auctor
+                        quam. Quisque volutpat ex nunc, non interdum enim hendrerit
+                        vitae. Sed a aliquam tortor. Praesent mi tellus, volutpat a
+                        dictum non, sagittis id nulla. Quisque rhoncus mattis ipsum
+                        quis lacinia. Mauris varius nibh id metus venenatis
+                        lobortis.
+                    </p>
+                </div>
+                <div className="w-2/5">
+                    <SVG
+                        className="w-full"
+                        src={MusicComposeIllustration}
+                        title={t('create_playlist.title')}
+                    />
+                </div>
             </div>
-            <div>
-                <TablePlayList playlists={playlists} t={t} />
-            </div>
-            <div>
-                <Classement
-                    classementItems={classementItems}
-                    title={t("home.classement.title")}
-                    t={t}
-                />
+            <div className="flex pl-16">
+                <div className="flex-grow-0 px-2">
+                    <Classement
+                        classementItems={classementItems}
+                        title={t("home.classement.title")}
+                        t={t}
+                    />
+                </div>
+                <div className="flex-grow pl-2">
+                    <TablePlayList playlists={playlists} t={t} />
+                </div>
             </div>
         </div>
     );

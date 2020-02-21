@@ -1,6 +1,6 @@
 import axiosModule from "axios";
 
 export const axios = axiosModule.create({
-    baseURL: 'http://54.175.227.162:8000/api',
+    baseURL: 'https://54.175.227.162/api',
     timeout: 10000,
 });

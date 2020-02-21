@@ -1,25 +1,25 @@
 import React from "react";
 import ClassementItem from "./ClassementItem.js";
+
 //Classement est un objet composé de {id:int unique, username:string, score: int}
 const Classement = ({ title, classementItems, t }) => {
     return (
-        <div>
-            <h1>{title}</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>{t("classement.joueur")}</th>
-                        <th>{t("classement.score")}</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div className="bg-gray-500 text-gray-900 p-4 rounded-lg shadow-lg">
+            <h1 className="text-xl font-semibold">{title}</h1>
+            <div className="border-b border-gray-900 pt-1"/>
+            <div className="pt-2">
+                <div className="flex flex-row text-lg">
+                    <div className="flex-1 font-semibold">{t("classement.joueur")}</div>
+                    <div className="flex-1 font-semibold">{t("classement.score")}</div>
+                </div>
+                <div>
                     {classementItems.map(player => {
                         return (
                             <ClassementItem key={player.id} player={player} />
                         );
                     })}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     );
 };

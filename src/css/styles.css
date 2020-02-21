@@ -636,8 +636,13 @@ video {
   padding-right: 1rem;
 }
 
+.screen-without-header {
+  height: calc(100vh - 5rem);
+  top: 5rem;
+}
+
 .left-side-container {
-  height: calc(100% - 5rem);
+  height: calc(100vh - 5rem);
   top: 5rem;
 }
 
