@@ -1,50 +1,58 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatForm from "./ChatForm";
 import ChatConversation from "./ChatConversation";
 import { axios } from "../../service/axios.js";
 
 const ChatContainer = props => {
 
+    const [messages, setMessages] = useState([]);
 
-    // Ajoute les derniers messages depuis le dernier load
-    axios.get('/api/chats/load')
-        .then(function (response) {
-            const [messages, setMessages] = useState(response.data);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        });
-
-    const addMessage = content => {
-        if(content === ''){
-            return;
-        }
-        axios.post('/api/chats', {
-                Message: content
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
+    /*useEffect(() => {
         // Ajoute les derniers messages depuis le dernier load
-        axios.get('/api/chats/load', {
-            params: {
-                lastDate: messages.lastIndexOf().CreatedAt
-            }
-        })
+        axios.get('/chats/load')
             .then(function (response) {
-                addMessage(response.data)
+                setMessages(response.data)
             })
             .catch(function (error) {
                 // handle error
                 console.log(error);
             });
+        console.log("aze", messages);
+    });*/
+
+    const addMessage = content => {
+        if(content === ''){
+            return;
+        }
+        console.log(content);
+        axios.post('/chats', {
+                "message": content
+            })
+            .then(function (postResponse) {
+                console.log("post")
+                // Ajoute les derniers messages depuis le dernier load
+                /*axios.get('/chats/load', {
+                    params: {
+                        lastDate: messages.lastIndexOf().CreatedAt
+                    }
+                })
+                    .then(function (response) {
+                        setMessages({...messages, response});
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    });*/
+                console.log(messages);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
+    if(messages.length)  {
+        return;
+    }
     return (
         <div className="flex flex-col content">
             <div className="chat-conversation">
