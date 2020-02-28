@@ -4,13 +4,14 @@ import TheHeader from "./common/TheHeader";
 import {BrowserRouter as Router} from "react-router-dom";
 import UserList from "./user/UserList";
 import TheRightSidePanel from "./common/TheRightSidePanel";
+import { getUserLogged } from '../service/security/userService';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
+            usernameLog:"",
             users: [
                 {
                     id: 1,
@@ -58,6 +59,18 @@ class App extends Component {
                 },
             ]
         }
+
+        this.refreshUsername();
+    }
+
+
+    refreshUsername = () => {
+        getUserLogged().then((data)=>{
+            this.setState({
+                usernameLog:data.username
+                }
+            )
+        });
     }
 
     render() {
@@ -65,9 +78,9 @@ class App extends Component {
         return (
             <div className="bg-gray-800 text-gray-500 min-h-full">
                 <Router>
-                    <TheHeader/>
+                    <TheHeader username={this.state.usernameLog} refreshUsername={this.refreshUsername}/>
                     <div className="w-4/5 pt-24 px-4">
-                        <RouteConfig/>
+                        <RouteConfig refreshUsername={this.refreshUsername}/>
                     </div>
                     <TheRightSidePanel users={this.state.users}/>
                 </Router>
