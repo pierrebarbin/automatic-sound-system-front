@@ -2,7 +2,8 @@ export default {
     "global": {
         header: {
             home: "Accueil",
-            login: "Se connecter"
+            login: "Se connecter",
+            logout: "Se déconnecter"
         },
         user: {
             list: {

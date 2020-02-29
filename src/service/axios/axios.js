@@ -1,6 +1,6 @@
 import axiosModule from "axios";
 
-import {getToken} from "../security/tokenService";
+import {getToken} from "../sessionStorage/tokenService";
 
 const addAuth = (config = {}) => {
     config.headers = {

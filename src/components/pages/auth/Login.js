@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {useHistory, Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
 import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
-import {logIn} from '../../../service/security/userService';
+import {getUserLogged, logIn} from '../../../service/security/userService';
 
 const Login = props => {
     const {t} = useTranslation();
@@ -19,19 +19,21 @@ const Login = props => {
     const onPasswordChange = event => {
         setPassword(event.target.value || '');
     };
-    const onSubmit = (e) => {
+    const onSubmit = e => {
         e.preventDefault();
+
         logIn(email, password)
-            .then((response_status) => {
+            .then(response_status => {
                 //Redirection sur la page d'acceuil
                 if (response_status === 200) {
-                    history.push("/");
-                    props.refreshUsername();
+                    getUserLogged().then(() => {
+                        history.push("/")
+                    });
                 }
                 //afficher erreur(s) d'identification
                 if (response_status === 404)
                     setMsgErrors("Email ou mot de passe invalide.");
-            })
+            });
     };
 
     return (

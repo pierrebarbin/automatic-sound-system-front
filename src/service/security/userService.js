@@ -1,5 +1,6 @@
 import {axiosAnonymous, axiosAuthenticated} from '../axios/axios';
-import {hasToken, removeToken, setToken} from "./tokenService";
+import {hasToken, removeToken, setToken} from "../sessionStorage/tokenService";
+import {removeUser, setUser} from "../sessionStorage/userService";
 
 //Se connecter
 const logIn = (email, password) => {
@@ -49,6 +50,7 @@ const register = (email, username, password) => {
 //Se déconnecter
 const logOut = () => {
     removeToken();
+    removeUser();
 };
 
 const isUserLogged = () => hasToken();
@@ -58,12 +60,25 @@ const getUserLogged = () => {
         if (isUserLogged()) {
             axiosAuthenticated.get('/users/current')
                 .then(response => {
-                    if (response.status === 200)
-                        resolve(response.data);
+                    if (response.status === 200) {
+                        setUser(response.data);
+                        resolve({user: response.data});
+                    }
                 })
                 .catch(error => {
-                    console.log(error);
+                    removeUser();
+                    removeToken();
+
+                    resolve({
+                        user: null,
+                        error: error
+                    });
                 })
+        } else {
+            removeUser();
+            removeToken();
+
+            resolve({user: null});
         }
     });
 };
