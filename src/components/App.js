@@ -3,7 +3,7 @@ import RouteConfig from "./routes/RouteConfig";
 import TheHeader from "./common/TheHeader";
 import {BrowserRouter as Router} from "react-router-dom";
 import TheRightSidePanel from "./common/TheRightSidePanel";
-import {getUserLogged} from "../service/security/userService";
+import {getUserLogged} from "../service/entity/userService";
 
 const App = props => {
     const [users, setUsers] = useState([

@@ -2,16 +2,15 @@ import React, {useState} from 'react';
 
 import ChatFormInput from "./ChatFormInput";
 import ChatFormButton from "./ChatFormButton";
-import {isUserLogged} from "../../service/security/userService";
+import {isUserLogged} from "../../service/entity/userService";
 
 const ChatForm = ({addMessages}) => {
-
     const [message, setMessage] = useState('');
 
     const onMessageChange = event => setMessage(event.target.value);
     const resetMessage = () => setMessage('');
 
-    if(!isUserLogged())    {
+    if (!isUserLogged()) {
         return "";
     }
 
