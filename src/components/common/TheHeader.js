@@ -4,7 +4,7 @@ import HomeIcon from '../../assets/icons/zondicons/home.svg';
 import LogoutIcon from '../../assets/icons/entypo/log-out.svg';
 import {useTranslation} from 'react-i18next';
 import {Link, useHistory} from "react-router-dom";
-import {logOut} from '../../service/security/userService';
+import {logOut} from '../../service/entity/userService';
 
 
 const TheHeader = props => {

@@ -3,7 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
 import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
-import {getUserLogged, logIn} from '../../../service/security/userService';
+import {getUserLogged, logIn} from '../../../service/entity/userService';
 
 const Login = props => {
     const {t} = useTranslation();

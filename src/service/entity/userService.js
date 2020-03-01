@@ -1,6 +1,6 @@
 import {axiosAnonymous, axiosAuthenticated} from '../axios/axios';
 import {hasToken, removeToken, setToken} from "../sessionStorage/tokenService";
-import {removeUser, setUser} from "../sessionStorage/userService";
+import {hasUser, removeUser, setUser} from "../sessionStorage/userService";
 
 //Se connecter
 const logIn = (email, password) => {
@@ -53,11 +53,11 @@ const logOut = () => {
     removeUser();
 };
 
-const isUserLogged = () => hasToken();
+const isUserLogged = () => hasToken() && hasUser();
 
 const getUserLogged = () => {
     return new Promise(resolve => {
-        if (isUserLogged()) {
+        if (hasToken()) {
             axiosAuthenticated.get('/users/current')
                 .then(response => {
                     if (response.status === 200) {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import {getUserLogged, register} from '../../../service/security/userService';
+import {getUserLogged, register} from '../../../service/entity/userService';
 import SVG from "react-inlinesvg";
 import RegisterIllustration from "../../../assets/illustrations/undraw/undraw_sign_in_e6hj.svg";
 import {useTranslation} from "react-i18next";

@@ -31,14 +31,14 @@ const axiosAuthenticated = {
     options: (url, config = {}) => {
         return axiosAnonymous.options(url, addAuth(config));
     },
-    post: (url, config = {}) => {
-        return axiosAnonymous.post(url, addAuth(config));
+    post: (url, data, config = {}) => {
+        return axiosAnonymous.post(url, data, addAuth(config));
     },
-    put: (url, config = {}) => {
-        return axiosAnonymous.put(url, addAuth(config));
+    put: (url, data, config = {}) => {
+        return axiosAnonymous.put(url, data, addAuth(config));
     },
-    patch: (url, config = {}) => {
-        return axiosAnonymous.patch(url, addAuth(config));
+    patch: (url, data, config = {}) => {
+        return axiosAnonymous.patch(url, data, addAuth(config));
     }
 };
 
