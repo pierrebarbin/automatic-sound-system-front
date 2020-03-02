@@ -1,51 +1,22 @@
 import React from 'react';
+import {formatDateTime} from "../../service/date/format";
+import {getUser} from "../../service/sessionStorage/userService";
 
-const ChatConversationItem = ({message}) => {
-    const {id, name, avatar, content, isMe} = message;
+const ChatConversationItem = props => {
+    const dateTimeFormat = formatDateTime(new Date(props.message.createdAt));
+    const isCurrentUserMessage = (props.message.user.id === getUser().id) ? "current-user-message" : "";
 
-    const renderConversationItem= () => {
-        if(isMe === true){
-            return (
-                <div className={`flex justify-end mt-4 text-right`}>
-                    <div>
-                        <div>
-                            <span className="text-xs mr-2">
-                                10:11
-                            </span>
-                            <span className="font-semibold text-sm">
-                                {name}
-                            </span>
-                        </div>
-                        <div>
-                            {content}
-                        </div>
-                    </div>
-                    <img src={avatar} alt={avatar} className="h-10 rounded-full ml-4 mr-2"/>
-                </div>
-            )
-        }
-
-        return (
-            <div className={`flex mt-4`}>
-                <img src={avatar} alt={avatar} className="h-10 rounded-full mr-4"/>
+    return (
+        <div className={`flex mt-4 ${isCurrentUserMessage}`}>
+            <div>
                 <div>
-                    <div>
-                    <span className="font-semibold text-sm">
-                        {name}
-                    </span>
-                        <span className="text-xs ml-2">
-                        10:11
-                    </span>
-                    </div>
-                    <div>
-                        {content}
-                    </div>
+                    <span className="font-semibold text-sm">{props.message.user.username}</span>
+                    <span className="text-xs ml-2">{dateTimeFormat}</span>
                 </div>
+                <div>{props.message.message}</div>
             </div>
-        )
-    };
-
-    return ( renderConversationItem() );
+        </div>
+    );
 };
 
 export default ChatConversationItem;

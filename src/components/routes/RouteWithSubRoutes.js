@@ -1,21 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-    Route
-} from "react-router-dom";
+import {Route, useHistory} from "react-router-dom";
 
-const RouteWithSubRoutes = route => {
-    const {exact, path, routes} = route;
+const RouteWithSubRoutes = (props) => {
+    const {exact, path, routes, isGranted, redirect} = props;
+    let history = useHistory();
+
+    if (!isGranted(props)) {
+        history.push(redirect);
+    }
+
     return (
         <Route
             exact={exact || false}
             path={path}
-            render={props => (
-                <route.component
+            render={routeProps => (
+                <props.component
                     {...props}
-                    {...route}
+                    {...routeProps}
                     routes={routes}
-            />)}
+                />)}
         />
     );
 };

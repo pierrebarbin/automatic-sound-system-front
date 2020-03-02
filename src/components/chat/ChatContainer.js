@@ -1,55 +1,56 @@
 import React, {useState} from 'react';
 import ChatForm from "./ChatForm";
 import ChatConversation from "./ChatConversation";
+import {isUserLogged} from "../../service/entity/userService";
+import {loadChats, loadLastChats, postChat} from "../../service/entity/chatService";
 
 const ChatContainer = props => {
+    const [messages, setMessages] = useState([]);
 
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            name: "Julie",
-            avatar: "https://static-s.aa-cdn.net/img/gp/20600001330578/dNIOzHDFe7geP8xljuRcZ4tRj-6EVMIL2DUB_v6hMrqYb7yXQX7dLX5lEWypg4_RkA=w300?v=1",
-            content: "Vous avez le Tp 4?",
-            isMe: false
-        },
-        {
-            id: 2,
-            name: "J-B",
-            avatar: "https://pbs.twimg.com/profile_images/2754678063/c283c58405d8bd628376199c9d537b36.jpeg",
-            content: "Non",
-            isMe: false
-        },
-        {
-            id: 3,
-            name: "Pierrick",
-            avatar: "https://pbs.twimg.com/profile_images/2971537976/6850da50f288bece1596e11f0b753f8a.jpeg",
-            content: "Ton chat est toujours malade?",
-            isMe: false
-        },
-        {
-            id: 4,
-            name: "Pierre",
-            avatar: "https://pbs.twimg.com/profile_images/737757686008152066/9A_nfpYL_400x400.jpg",
-            content: "Ya plus de TP",
-            isMe: true
-        },
-    ]);
+    const loadMessages = () => {
+        let hasSetMessage = false;
+
+        if (isUserLogged()) {
+            const promise = (messages.length < 1)
+                ? loadChats()
+                : loadLastChats(messages[messages.length - 1].createdAt);
+
+            // Ajoute les derniers messages depuis le dernier load ou tous les messages si il n'y en a pas
+            promise
+                .then(chats => {
+                    if (chats.length > 0) {
+                        setMessages([...messages, ...chats]);
+                        hasSetMessage = true
+                    }
+                })
+                .catch(error => {
+                    // handle error
+                    console.log(error);
+                })
+                .finally(() => {
+                    if (!hasSetMessage) {
+                        setTimeout(loadMessages, 1000);
+                    }
+                })
+            ;
+        }
+    };
 
     const addMessage = content => {
-        if(content === ''){
+        if (content === '') {
             return;
         }
-        setMessages([
-            ...messages,
-            {
-                id: 5,
-                name: "Pierre",
-                avatar: "https://pbs.twimg.com/profile_images/737757686008152066/9A_nfpYL_400x400.jpg",
-                content: content,
-                isMe: true
-            }
-        ]);
+
+        postChat(content)
+            .then(postResponse => {
+                console.log('post réussi');
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
+
+    loadMessages();
 
     return (
         <div className="flex flex-col content">
