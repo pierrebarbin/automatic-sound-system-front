@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-const ChatFormInput = ({message,onMessageChange}) => {
+const ChatFormInput = ({message,onMessageChange,addMessages,resetMessage}) => {
     const { t } = useTranslation();
     return (
         <div>
@@ -12,6 +12,12 @@ const ChatFormInput = ({message,onMessageChange}) => {
                 placeholder={t('global.user.tchat.form.placeholder')}
                 value={message}
                 onChange={onMessageChange}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        addMessages(message);
+                        resetMessage();
+                    }
+                }}
             />
         </div>
     );
