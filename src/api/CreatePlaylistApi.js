@@ -1,12 +1,12 @@
-import { axios } from "../service/axios.js";
+import { axiosAuthenticated } from "../service/axios/axios";
 
 export function insert(playlist) {
-    axios.post(`/playlist`, playlist);
+    axiosAuthenticated.post(`/playlist`, playlist);
 }
 
 export function postUrl(paramListofUrl) {
     var tracks = [];
-    axios.post(`/tracks/youtube/playlist`, paramListofUrl).then(res => {
+    axiosAuthenticated.post(`/tracks/youtube/playlist`, paramListofUrl).then(res => {
         tracks = res;
     });
     return tracks;

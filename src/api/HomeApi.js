@@ -1,4 +1,4 @@
-import { axios } from "../service/axios.js";
+import { axiosAuthenticated } from "../service/axios/axios.js";
 import ClassementApi from "./ClassementApi.js";
 
 export function getClassementGeneral() {
@@ -6,6 +6,6 @@ export function getClassementGeneral() {
 }
 export function getTablePlaylist() {
     var playlists = [];
-    axios.get("URL_A_CHANGER").then(res => (playlists = res));
+    axiosAuthenticated.get("URL_A_CHANGER").then(res => (playlists = res));
     return playlists;
 }

@@ -1,41 +1,41 @@
-import React, { useState} from 'react';
-import {logIn} from '../../../service/loginService';
-import { useHistory, Link } from "react-router-dom";
-import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
+import React, {useState} from 'react';
+import {Link, useHistory} from "react-router-dom";
 import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
+import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
+import {getUserLogged, logIn} from '../../../service/entity/userService';
 
 const Login = props => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [msgErrors, setMsgErrors] = useState();
 
-    const onEmailChange = event =>{
-        setEmail(event.target.value );
+    const onEmailChange = event => {
+        setEmail(event.target.value);
     };
-    const onPasswordChange = event =>{
+    const onPasswordChange = event => {
         setPassword(event.target.value || '');
-
     };
-    const LogIn= (e) =>{
+    const onSubmit = e => {
         e.preventDefault();
-       logIn(email, password)
-       .then((response_status) => {
-           //Redirection sur la page d'acceuil
-            if(response_status === 200){
-                history.push("/");
-                props.refreshUsername();
-            }
-            //afficher erreur(s) d'identification
-            if(response_status === 404)
-                setMsgErrors("Email ou mot de passe invalide.");
-       })
-        
+
+        logIn(email, password)
+            .then(response_status => {
+                //Redirection sur la page d'acceuil
+                if (response_status === 200) {
+                    getUserLogged().then(() => {
+                        history.push("/")
+                    });
+                }
+                //afficher erreur(s) d'identification
+                if (response_status === 404)
+                    setMsgErrors("Email ou mot de passe invalide.");
+            });
     };
-        
+
     return (
         <div className="screen-without-header flex items-center justify-center">
             <div className="bg-gray-900 p-4 shadow-lg rounded-lg flex">
@@ -44,10 +44,10 @@ const Login = props => {
                         {t('login.login')}
                     </h1>
                     <p style={{color: 'red'}}>{msgErrors}</p>
-                    <form onSubmit={LogIn} className="mt-4">
+                    <form onSubmit={onSubmit} className="mt-4">
                         <div>
                             <div>
-                                <label htmlFor="email" > {t('login.inputs.email')}</label>
+                                <label htmlFor="email"> {t('login.inputs.email')}</label>
                                 <input
                                     className="block bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline placeholder-gray-400 w-64"
                                     id="email"
@@ -58,7 +58,7 @@ const Login = props => {
                                 />
                             </div>
                             <div className="mt-2">
-                                <label htmlFor="password" > {t('login.inputs.password')}</label>
+                                <label htmlFor="password"> {t('login.inputs.password')}</label>
                                 <input
                                     className="block bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline placeholder-gray-400 w-64"
                                     id="password"

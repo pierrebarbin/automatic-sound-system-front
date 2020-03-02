@@ -1,4 +1,4 @@
-import { axios } from "../service/axios.js";
+import { axiosAuthenticated } from "../service/axios/axios.js";
 
 export function getClassement(idPlaylist) {
     var classement = [];
@@ -6,7 +6,7 @@ export function getClassement(idPlaylist) {
     if (idPlaylist !== undefined) {
         url = `${url}/playlist/${idPlaylist}`;
     }
-    axios.get(url).then(res => {
+    axiosAuthenticated.get(url).then(res => {
         classement = res;
     });
     return classement;
