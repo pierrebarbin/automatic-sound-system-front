@@ -1,8 +1,9 @@
 import Index from "../components/pages/Index.js";
 import Login from "../components/pages/auth/Login.js";
 import Register from "../components/pages/auth/Register.js";
-import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist"
+import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist";
 import Profile from "../components/pages/profile/Profile.js";
+import Gameplay from "../components/pages/gameplay/gameplay.js";
 
 import {getUser} from "../service/sessionStorage/userService";
 
@@ -39,6 +40,12 @@ export const routes = [
     {
         path: "/profile",
         component: Profile,
+        isGranted: isAuthenticated,
+        redirect: "/login"
+    },
+    {
+        path: "/play",
+        component: Gameplay,
         isGranted: isAuthenticated,
         redirect: "/login"
     }
