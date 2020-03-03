@@ -4,10 +4,9 @@ import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
 import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
 import {getUserLogged, logIn} from '../../../service/entity/userService';
-import Message from "../../../model/Message/Message";
 import {connect} from "react-redux";
-import {error} from "../../../model/Message/types";
-import {createMessage} from "../../../actions/message";
+import {error, success} from "../../../model/Message/types";
+import {dispatchAddMessage} from "../../../actions/message";
 
 const Login = ({addMessage}) => {
     const {t} = useTranslation();
@@ -27,17 +26,21 @@ const Login = ({addMessage}) => {
 
         logIn(email, password)
             .then(response => {
+                console.log(response);
                 //Redirection sur la page d'acceuil
                 if (response.status === 200) {
                     getUserLogged().then(() => {
                         history.push("/")
                     });
+                    addMessage("Bienvenu sur Musicass !", success);
                 }
             })
             .catch(requestError => {
                 //afficher erreur(s) d'identification
-                if (requestError.response.status === 401){
-                    addMessage(requestError.response.data.message, error);
+                if (requestError !== undefined && requestError.response !== undefined) {
+                    if (requestError.response.status === 401) {
+                        addMessage(requestError.response.data.message, error);
+                    }
                 }
             })
         ;
@@ -111,9 +114,11 @@ const Login = ({addMessage}) => {
     );
 };
 
-const mapStateToProps = state => { return {}; };
+const mapStateToProps = state => {
+    return {};
+};
 const mapDispatchsToProps = dispatch => {
-    return createMessage(dispatch);
+    return dispatchAddMessage(dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchsToProps)(Login);

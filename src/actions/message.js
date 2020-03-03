@@ -1,13 +1,13 @@
 import Message from "../model/Message/Message";
 
-const deleteMessage = (dispatch, object = {}) => {
+const dispatchDeleteMessage = (dispatch, object = {}) => {
     object.deleteMessage = id => {
         dispatch({type: 'DELETE', key: 'messages', id: id})
     };
 };
 
-const createMessage = (dispatch, object = {}) => {
-    object.addMessage = (content, type) => {
+const dispatchAddMessage = (dispatch, object = {}) => {
+    object.addMessage = (content, type, duration = 5000) => {
         const message = new Message(content, type);
 
         dispatch({
@@ -18,10 +18,10 @@ const createMessage = (dispatch, object = {}) => {
 
         setTimeout(() => {
             dispatch({type: 'DELETE', key: 'messages', id: message.id})
-        }, 10000);
+        }, duration);
     };
 
     return object;
 };
 
-export {deleteMessage, createMessage};
+export {dispatchDeleteMessage, dispatchAddMessage};

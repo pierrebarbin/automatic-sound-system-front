@@ -9,13 +9,17 @@ const logIn = (email, password) => {
         plainPassword: password
     };
 
-    return axiosAnonymous.post('/login', data)
-        .then(response => {
-            //Création du token si la requête a réussie
-            if (response.status === 200) {
-                setToken(response.data.token);
-            }
-        });
+    return new Promise((resolve, reject) => {
+        axiosAnonymous.post('/login', data)
+            .then(response => {
+                //Création du token si la requête a réussie
+                if (response.status === 200) {
+                    setToken(response.data.token);
+                }
+                resolve(response);
+            })
+            .catch(error => {reject(error)});
+    });
 };
 
 //S'inscrire
