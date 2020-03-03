@@ -4,14 +4,17 @@ import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
 import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
 import {getUserLogged, logIn} from '../../../service/entity/userService';
+import Message from "../../../model/Message/Message";
+import {connect} from "react-redux";
+import {error} from "../../../model/Message/types";
+import {createMessage} from "../../../actions/message";
 
-const Login = props => {
+const Login = ({addMessage}) => {
     const {t} = useTranslation();
 
     let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [msgErrors, setMsgErrors] = useState();
 
     const onEmailChange = event => {
         setEmail(event.target.value);
@@ -23,17 +26,21 @@ const Login = props => {
         e.preventDefault();
 
         logIn(email, password)
-            .then(response_status => {
+            .then(response => {
                 //Redirection sur la page d'acceuil
-                if (response_status === 200) {
+                if (response.status === 200) {
                     getUserLogged().then(() => {
                         history.push("/")
                     });
                 }
+            })
+            .catch(requestError => {
                 //afficher erreur(s) d'identification
-                if (response_status === 404)
-                    setMsgErrors("Email ou mot de passe invalide.");
-            });
+                if (requestError.response.status === 401){
+                    addMessage(requestError.response.data.message, error);
+                }
+            })
+        ;
     };
 
     return (
@@ -43,7 +50,6 @@ const Login = props => {
                     <h1 className="text-4xl font-semibold">
                         {t('login.login')}
                     </h1>
-                    <p style={{color: 'red'}}>{msgErrors}</p>
                     <form onSubmit={onSubmit} className="mt-4">
                         <div>
                             <div>
@@ -105,4 +111,9 @@ const Login = props => {
     );
 };
 
-export default Login;
+const mapStateToProps = state => { return {}; };
+const mapDispatchsToProps = dispatch => {
+    return createMessage(dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchsToProps)(Login);

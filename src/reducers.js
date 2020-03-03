@@ -6,7 +6,10 @@ const reducer = (state = initState, action) => {
     if (action.key === 'messages') {
         switch (action.type) {
             case 'CREATE':
-                state.messages.push(action.message);
+                state = {
+                    ...state,
+                    messages: [...state.messages, action.message]
+                };
                 break;
             case 'DELETE':
                 let filteredMessages = state.messages.filter(message => message.id !== action.id);

@@ -1,5 +1,7 @@
+import {success, warning, error, info} from "./types";
+
 class Message {
-    constructor(content, type = 'info'){
+    constructor(content, type = info){
         this.id = Message.generateId();
         this.content = content;
         this.type = type;
@@ -14,10 +16,10 @@ class Message {
         return generatedId;
     }
 
-    isSuccess   = () => this.type === 'success';
-    isWarning   = () => this.type === 'warning';
-    isError     = () => this.type === 'error';
-    isInfo      = () => this.type === 'info';
+    isSuccess   = () => this.type === success;
+    isWarning   = () => this.type === warning;
+    isError     = () => this.type === error;
+    isInfo      = () => this.type === info;
 }
 
 export default Message;
