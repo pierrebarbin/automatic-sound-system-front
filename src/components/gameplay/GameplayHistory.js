@@ -3,11 +3,10 @@ import HistoryItem from "./GameplayHistoryItem.js";
 const GameplayHistory = ({ gameHistory, t, score }) => {
     return (
         <div className="bg-gray-500 text-gray-900 p-4 rounded-lg shadow-lg">
+            <span className="float-right">{t("gameplay.history.score")} {score}</span>
             <h1 className="text-xl font-semibold">
                 {t("gameplay.history.title")}
             </h1>
-            <span>{t("gameplay.history.score")}</span>
-            <span>{score}</span>
             <div className="border-b border-gray-900 pt-1" />
             <div className="pt-2">
                 <div className="flex flex-row text-lg">

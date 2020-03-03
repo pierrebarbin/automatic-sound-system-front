@@ -1,9 +1,12 @@
 import React, { useState, useEffect,useRef } from "react";
+import SVG from "react-inlinesvg";
 import Classement from "../../classement/Classement";
 import GameplayHistory from "../../gameplay/GameplayHistory";
 import { useTranslation } from "react-i18next";
 import GameSearch from "../../../service/GameSearch.js";
 import YtPlayer from "../../common/ytplayer.js";
+import svgNote from "../../../assets/icons/zondicons/music-notes.svg"; 
+import svgArtist from "../../../assets/icons/zondicons/music-artist.svg";
 
 // pour le timer voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 
@@ -18,7 +21,8 @@ const Gameplay = props => {
             title: "Sandstorm",
             singer: "Darude",
             bSinger: true,
-            bTitle: true
+            bTitle: true,
+            isWin: 0
         },
         {
             id: 2,
@@ -26,7 +30,8 @@ const Gameplay = props => {
             title: "Blue",
             singer: "Eiffel 65",
             bSinger: true,
-            bTitle: true
+            bTitle: true,
+            isWin:0
         },
         {
             id: 3,
@@ -34,7 +39,8 @@ const Gameplay = props => {
             title: "Rasputin",
             singer: "Boney M.",
             bSinger: true,
-            bTitle: true
+            bTitle: true,
+            isWin:0
         },
         {
             id: 4,
@@ -42,7 +48,8 @@ const Gameplay = props => {
             title: "Stairway To Heaven",
             singer: "Led Zeppelin",
             bSinger: true,
-            bTitle: true
+            bTitle: true,
+            isWin:0
         },
     ]);
     const { t } = useTranslation();
@@ -56,6 +63,8 @@ const Gameplay = props => {
     const [waiting,setWaiting] = useState(false);
     const [nbMusique, setNbMusique] = useState(0);
     const [currentMusique,setCurrentMusique]=useState([])
+    const [musiqueFind,setMusiqueFind] = useState(false);
+    const [singerFind,setSingerFind] = useState(false);
     //#endregion
     const childRef = useRef();
 
@@ -65,23 +74,15 @@ const Gameplay = props => {
         let interval = null;
         
         if (init) {
-            console.log({musique})
-
-            if (window.confirm("Commencer la partie")) {
                 
                 let ReadyInterval = window.setInterval(()=>{
                     if(childRef.current.playerIsReady()){
                         window.clearInterval(ReadyInterval);
                         setInit(false)
                         setIsActive(!isActive);
-                        // TODO lancer le player et le timer
-                        childRef.current.nextVideo(); 
                     }
                 },2000)
-                
-            } else {
-                window.location.reload();
-            }
+
             getClassement();
         }
 
@@ -90,46 +91,159 @@ const Gameplay = props => {
                 interval = setInterval(() => {
                     setSeconds(seconds => seconds - 1);
                 }, 1000);
-            } else {
-                if(nbMusique <= musique.length+1){
+            } else { 
+                if(musique.length){
                     if(waiting){
-                        setSeconds(setSeconds => 10);
-                        setWaiting(false)
+                        document.getElementById("TitleFind").classList.add("text-yellow-600");
+                        document.getElementById("TitleFind").classList.remove("text-green-600");
+                        document.getElementById("ArtistFind").classList.add("text-yellow-600");
+                        document.getElementById("ArtistFind").classList.remove("text-green-600");
+
+                        document.getElementById("GameSearch").disabled = false;
+                        document.getElementById("GameSearch").focus();
+                        setMusiqueFind(false);
+                        setSingerFind(false);
+                        setNbMusique(nbMusique+1);
+                        setCurrentMusique(musique[0]);
+                        childRef.current.nextVideo();
+                        setSeconds(setSeconds => 10);  
+                        setWaiting(false);
                     }else{
-                        setNbMusique(nbMusique+1)
-                        console.log({nbMusique})
-                        setCurrentMusique(musique[nbMusique])
-                        console.log({currentMusique})
+                        document.getElementById("GameSearch").disabled = true;
+                        if (currentMusique.title != undefined){
+                            addGameToHistory();
+                        }
+                        childRef.current.PauseVideo();
+                        document.getElementById("")
                         setSeconds(setSeconds => 5);
-                        setWaiting(true)
+                        setWaiting(true);
                     }
-                }else{
-                    // TODO afficher le score
                 }
-                console.log("stop")
-                childRef.current.PauseVideo();
-                setSeconds(setSeconds => 30);
+                else if (seconds == 0){
+                    // TODO send score
+                    if (currentMusique.title != undefined){
+                        addGameToHistory();
+                    }
+                    childRef.current.PauseVideo();
+                }    
             }
+
         } else if (!isActive && seconds !== 0) {
             clearInterval(interval);
         }
 
         return () => clearInterval(interval);
 
-    }, [isActive, seconds]);
+    }, [isActive, seconds,currentMusique]);
     //#endregion
 
     const handleSubmit = (event) => {
-        // alert(call le levenstein avec  ${valueInput} et les reponses)
-        console.log({nbMusique})
-        console.log(valueInput,musique[nbMusique].singer,musique[nbMusique].title,musique[nbMusique].bSinger,musique[nbMusique].bTitle)
-        var result = GameSearch(valueInput,musique[nbMusique].singer,musique[nbMusique].title,musique[nbMusique].bSinger,musique[nbMusique].bTitle) ;
-        alert(result);
+        
+        var result = GameSearch(valueInput,currentMusique.singer,currentMusique.title,currentMusique.bSinger,currentMusique.bTitle);
+
+        switch (result) {
+            case 1:
+                if (! singerFind ){
+                    setSingerFind(true);
+                    currentMusique.isWin = currentMusique.isWin + 1;
+                    setCurrentMusique(currentMusique);
+                    document.getElementById("ArtistFind").classList.remove("text-yellow-600");
+                    document.getElementById("ArtistFind").classList.add("text-green-600");
+                    if( seconds >= 1 && seconds <= 10 ){
+                        setScore(score + 1);
+                    }
+                    else if( seconds >= 11 && seconds <= 20 ){
+                        setScore(score + 2);
+                    }
+                    else if( seconds >= 21 && seconds <= 30 ){
+                        setScore(score + 3);
+                    }
+                }
+            break;
+            
+            case 2:
+                if (! musiqueFind ){
+                    setMusiqueFind(true);
+                    currentMusique.isWin = currentMusique.isWin + 2;
+                    setCurrentMusique(currentMusique);
+                    document.getElementById("TitleFind").classList.remove("text-yellow-600");
+                    document.getElementById("TitleFind").classList.add("text-green-600");
+                    if( seconds >= 1 && seconds <= 10 ){
+                        setScore(score + 1);
+                    }
+                    else if( seconds >= 11 && seconds <= 20 ){
+                        setScore(score + 2);
+                    }
+                    else if( seconds >= 21 && seconds <= 30 ){
+                        setScore(score + 3);
+                    }
+                }
+            break;
+
+            case 3:
+                if(! singerFind && ! musiqueFind){
+                    setMusique(true);
+                    setSingerFind(true);
+                    currentMusique.isWin = 3;
+                    setCurrentMusique(currentMusique);
+                    document.getElementById("TitleFind").classList.remove("text-yellow-600");
+                    document.getElementById("TitleFind").classList.add("text-green-600");
+                    document.getElementById("ArtistFind").classList.remove("text-yellow-600");
+                    document.getElementById("ArtistFind").classList.add("text-green-600");
+                    if( seconds >= 1 && seconds <= 10 ){
+                        setScore(score + 7);
+                    }
+                    else if( seconds >= 11 && seconds <= 20 ){
+                        setScore(score + 8);
+                    }
+                    else if( seconds >= 21 && seconds <= 30 ){
+                        setScore(score + 9);
+                    }
+                }
+                else{
+                    if (! musiqueFind ){
+                        setMusiqueFind(true);
+                        document.getElementById("TitleFind").classList.remove("text-yellow-600");
+                        document.getElementById("TitleFind").classList.add("text-green-600");
+                        currentMusique.isWin = currentMusique.isWin + 2;
+                        setCurrentMusique(currentMusique);
+                        if( seconds >= 1 && seconds <= 10 ){
+                            setScore(score + 1);
+                        }
+                        else if( seconds >= 11 && seconds <= 20 ){
+                            setScore(score + 2);
+                        }
+                        else if( seconds >= 21 && seconds <= 30 ){
+                            setScore(score + 3);
+                        }
+                    }
+
+                    if (! singerFind){
+                        setSingerFind(true);
+                        document.getElementById("ArtistFind").classList.remove("text-yellow-600");
+                        document.getElementById("ArtistFind").classList.add("text-green-600");
+                        currentMusique.isWin = currentMusique.isWin + 1;
+                        setCurrentMusique(currentMusique);
+                        if( seconds >= 1 && seconds <= 10 ){
+                            setScore(score + 1);
+                        }
+                        else if( seconds >= 11 && seconds <= 20 ){
+                            setScore(score + 2);
+                        }
+                        else if( seconds >= 21 && seconds <= 30 ){
+                            setScore(score + 3);
+                        }
+                    }
+                }
+            break;
+        }
+
+        setValueInput("");
         event.preventDefault();
     }
 
-    const addGameToHistory = musique => {
-        setGameHistory(...gameHistory, musique);
+    const addGameToHistory = () => {
+        setGameHistory([currentMusique,...gameHistory]);
     };
 
     const getClassement = event => {
@@ -215,43 +329,79 @@ const Gameplay = props => {
 
     //#region html
     return (
-        <div className="app">
+        <div className="bg-gray-900 p-4">
             <div>
                 <YtPlayer musique={musique} ref={childRef}/>
             </div>
-            <div className="time">
-                {waiting?'Waiting':"Musique numéro : " + nbMusique}
+
+            <div className="grid grid-cols-12 gap-2">
+
+                    <div class="col-span-9">
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                id="GameSearch"
+                                className="w-full flex-grow bg-gray-800 placeholder-gray-500 p-2 rounded-lg focus:outline-none focus:shadow-outline"
+                                type="text"
+                                value={valueInput}
+                                autoComplete="off"
+                                onChange={e => setValueInput(e.target.value)}
+                            />
+                        </form>
+                    </div>
+
+                    <div className="col-span-3 grid grid-cols-12">
+                        <div className="col-span-3">
+                            <button id="TitleFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
+                                <SVG
+                                    className="h-10 w-10 fill-current pt-2"
+                                    src={svgNote}
+                                    title="Titre trouvé"
+                                />
+                            </button>
+                            
+                        </div>
+                        <div className="col-span-3">
+                            <button id="ArtistFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
+                                <SVG
+                                    className="h-10 w-10 fill-current pt-2"
+                                    src={svgArtist}
+                                    title="Artiste trouvé"
+                                />
+                            </button>
+                            
+                        </div>
+                        
+
+                        <div className="col-span-6">
+                            <div className="time">
+                                {waiting?'En attente':"Extrait n° " + nbMusique}
+                            </div>
+                            <div className="time">
+                                {seconds}s
+                            </div>
+                        </div>
+
+                    </div>
+
+                
+
+                    <div className="col-span-9">
+                        <GameplayHistory
+                            gameHistory={gameHistory}
+                            t={t}
+                            score={score}
+                        />
+                    </div>
+                    <div className="col-span-3">
+                        <Classement
+                            title={t("gameplay.classement.playlist")}
+                            classementItems={classementPlaylist}
+                            t={t}
+                        />
+                    </div>
             </div>
-            <div className="time">
-                {seconds}s
-            </div>
-            <br />
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        value={valueInput}
-                        onChange={e => setValueInput(e.target.value)}
-                    />
-                    <input type="submit" value="Envoyer" />
-                </form>
-            </div>
-            <div className="flex pl-16">
-                <div className="flex-grow-0 px-2">
-                    <Classement
-                        title={t("gameplay.classement.playlist")}
-                        classementItems={classementPlaylist}
-                        t={t}
-                    />
-                </div>
-                <div className="flex-grow pl-2">
-                    <GameplayHistory
-                        gameHistory={gameHistory}
-                        t={t}
-                        score={score}
-                    />
-                </div>
-            </div>
+
+            
         </div>
     );
 };

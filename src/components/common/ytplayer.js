@@ -8,17 +8,7 @@ const Ytplayer = forwardRef((props, ref) => {
 
     const [Player,setYtPlayer] = useState(undefined);
 
-    // const [url, setUrl] = useState([
-    //     {id:"GUenj-OKjWE"},
-    //     {id:"LZAFo4jXhW0"},
-    //     {id:"dQw4w9WgXcQ"},
-    //     {id:"dv13gl0a-FA"},
-    //     {id:"pVHKp6ffURY"},
-    //     {id:"rY-FJvRqK0E"}]);
-
     const config = { attributes: true, childList: true, subtree: true };
-
-    // var Player = undefined;
 
     const Rehide = (mutationsList, observer) => {
         for(let mutation of mutationsList) {
@@ -32,10 +22,7 @@ const Ytplayer = forwardRef((props, ref) => {
 
     const SetPlayer = (event) => {
         // access to player in all event handlers via event.target
-        // Player = event.target;
-        setYtPlayer(event.target);
-        
-        // document.getElementById("audio").play();     
+        setYtPlayer(event.target);    
 
         if ('mediaSession' in navigator){ // anti-triche overlay audio win10
             navigator.mediaSession.metadata = new window.MediaMetadata({
@@ -47,13 +34,12 @@ const Ytplayer = forwardRef((props, ref) => {
         // observe les modif du dom sur le player pour empêcher le resize
         const observer = new window.MutationObserver(Rehide);
         observer.observe( document.getElementById('player') , config);
-   
     };
 
     useImperativeHandle(ref, () => ({
 
         playerIsReady: ()=>{
-            if(Player == undefined){
+            if(Player === undefined){
                 return false;  
             }
             else{
@@ -62,19 +48,29 @@ const Ytplayer = forwardRef((props, ref) => {
         },
         PauseVideo: () => {
             Player.pauseVideo();
-            // document.getElementById("audio").pause();
         },
         PlayVideo: () => {
-            if (Player != undefined){
+            if (Player !== undefined){
                 Player.playVideo();
                 return true;
             }
             else{
                 return false;
             }
-            // document.getElementById("audio").play();
         },
+        prepareNextVideo: () => {
+            if ( url.length ){
+                let thisID = url.shift().url;
+                thisID = thisID.match(/v=[^&]+/gm)[0].replace("v=","");
 
+                Player.cueVideoById({
+                    videoId:thisID,
+                    startSeconds:20,
+                    endSeconds:50,
+                    suggestedQuality:"small"
+                });
+            }
+        },
         nextVideo: () => {
             if ( url.length ){
                 let thisID = url.shift().url;
@@ -83,7 +79,8 @@ const Ytplayer = forwardRef((props, ref) => {
                 Player.loadVideoById({
                     videoId:thisID,
                     startSeconds:20,
-                    endSeconds:40
+                    endSeconds:50,
+                    suggestedQuality:"small"
                 });
             }
         },
@@ -110,7 +107,6 @@ const Ytplayer = forwardRef((props, ref) => {
         <div>
             <YouTube
                 id="player"
-                // videoId={url}
                 opts={opts}
                 onReady={SetPlayer}
                 onResize={Rehide}
