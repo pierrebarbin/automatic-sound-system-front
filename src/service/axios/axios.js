@@ -10,8 +10,8 @@ const addAuth = (config = {}) => {
 };
 
 const axiosAnonymous = axiosModule.create({
-    // baseURL: 'http://0.0.0.0:8001/api',
-    baseURL: 'https://54.175.227.162/api',
+    baseURL: 'http://0.0.0.0:8001/api',
+    // baseURL: 'https://54.175.227.162/api',
     timeout: 10000,
 });
 

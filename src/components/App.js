@@ -4,6 +4,7 @@ import TheHeader from "./common/TheHeader";
 import {BrowserRouter as Router} from "react-router-dom";
 import TheRightSidePanel from "./common/TheRightSidePanel";
 import {getUserLogged} from "../service/entity/userService";
+import Toaster from "./toast/Toaster";
 
 const App = props => {
     const [users, setUsers] = useState([
@@ -83,6 +84,7 @@ const App = props => {
 
     return (
         <div className="bg-gray-800 text-gray-500 min-h-full">
+            <Toaster/>
             <Router>
                 <TheHeader/>
                 <div className="w-4/5 pt-24 px-4">
