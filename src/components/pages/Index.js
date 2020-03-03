@@ -138,21 +138,21 @@ const Index = props => {
                     <h1 className="text-6xl font-bold">Musicass</h1>
                     <p className="text-lg leading-relaxed">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Aliquam vitae lorem turpis. Etiam sollicitudin, lectus sit
-                        amet gravida hendrerit, lacus augue viverra dolor, sed
-                        sagittis odio nulla vitae tellus. Suspendisse ut auctor
-                        quam. Quisque volutpat ex nunc, non interdum enim hendrerit
-                        vitae. Sed a aliquam tortor. Praesent mi tellus, volutpat a
-                        dictum non, sagittis id nulla. Quisque rhoncus mattis ipsum
-                        quis lacinia. Mauris varius nibh id metus venenatis
-                        lobortis.
+                        Aliquam vitae lorem turpis. Etiam sollicitudin, lectus
+                        sit amet gravida hendrerit, lacus augue viverra dolor,
+                        sed sagittis odio nulla vitae tellus. Suspendisse ut
+                        auctor quam. Quisque volutpat ex nunc, non interdum enim
+                        hendrerit vitae. Sed a aliquam tortor. Praesent mi
+                        tellus, volutpat a dictum non, sagittis id nulla.
+                        Quisque rhoncus mattis ipsum quis lacinia. Mauris varius
+                        nibh id metus venenatis lobortis.
                     </p>
                 </div>
                 <div className="w-2/5">
                     <SVG
                         className="w-full"
                         src={MusicComposeIllustration}
-                        title={t('create_playlist.title')}
+                        title={t("create_playlist.title")}
                     />
                 </div>
             </div>
