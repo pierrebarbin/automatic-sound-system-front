@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 import Classement from "../classement/Classement.js";
 import TablePlayList from "../home/HomeTablePlaylist";
-import HomeTablePlaylist from '../home/HomeTablePlaylist';
 import SVG from "react-inlinesvg";
 import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
-import {logOut,isUserLogged} from '../../service/entity/userService';
 
 const Index = props => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [classementItems, setClassementItems] = useState([]);
     const [playlists, setPlaylists] = useState([]);
-    const [isUserLog, setIsuserlogged] = useState(isUserLogged);     
 
     useEffect(() => {
-        usrupd () 
         getClassement();
         getPlaylist();
     }, []);
-    function usrupd () {
-        setIsuserlogged(isUserLogged);
-      }
+
     const getClassement = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setClassementItems([
@@ -101,11 +95,10 @@ const Index = props => {
             }
         ]);
     };
-
     const getPlaylist = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setPlaylists([
-            { id: 1, title: "ut nisi", scoreMax: 21, creator: "Nasim", npu: 7 },
+            {id: 1, title: "ut nisi", scoreMax: 21, creator: "Nasim", npu: 7},
             {
                 id: 2,
                 title: "gravida nunc",
@@ -141,7 +134,7 @@ const Index = props => {
         <div>
             <div className="flex items-center justify-center screen-without-header">
                 <div className="w-3/5 px-20">
-                <h1>Playlists</h1>
+                    <h1>Playlists</h1>
                 </div>
                 <div className="w-2/5">
                     <SVG
@@ -156,11 +149,10 @@ const Index = props => {
                     <Classement
                         classementItems={classementItems}
                         title={t("home.classement.title")}
-                        t={t}
                     />
                 </div>
                 <div className="flex-grow pl-2">
-                    <TablePlayList playlists={playlists} t={t} />
+                    <TablePlayList playlists={playlists}/>
                 </div>
             </div>
         </div>

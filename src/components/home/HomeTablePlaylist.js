@@ -1,13 +1,17 @@
 import React from "react";
 import TableItem from "./HomeTablePlaylistItem.js";
-const HomeTablePlayList = ({ playlists, t }) => {
+import {useTranslation} from "react-i18next";
+
+const HomeTablePlayList = ({playlists}) => {
+    const {t} = useTranslation();
+
     return (
         <div className="bg-gray-900 p-4 shadow rounded-lg">
             <div>
                 <h3 className="text-xl font-semibold">
                     Dernières parties jouées
                 </h3>
-                <div className="separator-b pt-1" />
+                <div className="separator-b pt-1"/>
                 <div className="flex flex-row mt-2 text-lg font-semibold">
                     <div className="flex-1">
                         {t("home.tablePlaylist.title")}

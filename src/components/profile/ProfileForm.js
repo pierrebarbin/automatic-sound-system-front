@@ -1,22 +1,17 @@
-import React, { useState,useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
 import SVG from "react-inlinesvg";
-import CameraIcon from "../../assets/icons/zondicons/camera.svg";
 import ProfileIllustration from "../../assets/illustrations/undraw/undraw_profile_6l1l.svg";
+import {connect} from "react-redux";
 
-const ProfileForm = (props) => {
-    const { t } = useTranslation();
+const ProfileForm = ({user}) => {
+    const {t} = useTranslation();
 
-    const [login, setLogin] = useState("Steven");
-    const [mail, setMail] = useState("Steven@test.com");
+    const [login, setLogin] = useState(user.username);
+    const [mail, setMail] = useState(user.email);
     const [pwd, setPwd] = useState("");
     const [confpwd, SetConfPwd] = useState("");
-    const [usr, setUsr] = useState(props.usr);     
-    useEffect(() => {
-        // Met à jour le titre du document via l’API du navigateur
-    //usrupd();
-    console.log(props.user);
-    });
+
     const onChangeLogin = event => {
         setLogin(event.target.value);
     };
@@ -32,7 +27,7 @@ const ProfileForm = (props) => {
     const onChangeConfPwd = event => {
         SetConfPwd(event.target.value);
     };
-    
+
     return (
         <div className="flex items-center justify-center my-4">
             <div className="flex">
@@ -65,7 +60,7 @@ const ProfileForm = (props) => {
                             type="text"
                             name="Login"
                             id="Login"
-                            value={props.user.username}
+                            value={login}
                             onChange={() => onChangeLogin}
                             readOnly
                         />
@@ -76,7 +71,7 @@ const ProfileForm = (props) => {
                             className="bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline placeholder-gray-400 "
                             type="text"
                             name="Mail"
-                            value={props.user.email}
+                            value={mail}
                             onChange={() => onChangeMail}
                             readOnly
                         />
@@ -114,10 +109,16 @@ const ProfileForm = (props) => {
                 </div>
             </div>
             <div className="pl-16">
-                <SVG className="h-64" src={ProfileIllustration} />
+                <SVG className="h-64" src={ProfileIllustration}/>
             </div>
         </div>
     );
 };
 
-export default ProfileForm;
+const mapStateToProps = state => {
+    return {
+        user: state.authenticatedUser
+    };
+};
+
+export default connect(mapStateToProps)(ProfileForm);

@@ -5,11 +5,9 @@ import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist";
 import Profile from "../components/pages/profile/Profile.js";
 import Gameplay from "../components/pages/gameplay/gameplay.js";
 
-import {getUser} from "../service/sessionStorage/userService";
 
-
-const isAuthenticated = () => getUser() !== null;
-const isAnonymous = () => getUser() === null;
+const isAuthenticated = user => user !== null;
+const isAnonymous = user => user === null;
 
 export const routes = [
     {

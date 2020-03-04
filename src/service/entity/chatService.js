@@ -4,7 +4,7 @@ const postChat = message => {
     return new Promise((resolve, reject) => {
         axiosAuthenticated.post('/chats', {message: message})
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     resolve(response.data);
                 } else {
                     reject(response);

@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import {getUserLogged, register} from '../../../service/entity/userService';
+import {Link} from "react-router-dom";
+import {register} from '../../../service/entity/userService';
 import SVG from "react-inlinesvg";
 import RegisterIllustration from "../../../assets/illustrations/undraw/undraw_sign_in_e6hj.svg";
 import {useTranslation} from "react-i18next";
+import {dispatchAddToken} from "../../../actions/token";
+import {connect} from "react-redux";
+import {dispatchAddMessage} from "../../../actions/message";
+import {error} from "../../../model/Message/types";
 
-const Register = props => {
+const Register = ({addMessage, addToken}) => {
     const {t} = useTranslation();
 
-    let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordMatch, setPasswordMatch] = useState();
@@ -24,8 +27,8 @@ const Register = props => {
         setPasswordMatch(event.target.value || '');
 
         event.target.setCustomValidity((event.target.value !== password)
-            ?"Les mots de passe doivent être identiques."
-            :""
+            ? "Les mots de passe doivent être identiques."
+            : ""
         );
     };
     const onUsernameChange = event => {
@@ -36,11 +39,13 @@ const Register = props => {
         e.preventDefault();
 
         register(email, username, password)
-            .then(responseStatus => {
-                if (responseStatus === 200)
-                    getUserLogged().then(() => {
-                        history.push("/");
-                    });
+            .then(response => {
+                if (response.status === 200) {
+                    addToken(response.data.token);
+                }
+            })
+            .catch(data => {
+                addMessage('Impossible de créer ce compte, essayez avec un autre email/pseudo.', error)
             });
     };
 
@@ -124,6 +129,19 @@ const Register = props => {
             </div>
         </div>
     );
-}
+};
 
-export default Register
+const mapStateToProps = state => {
+    return {
+        user: state.authenticatedUser
+    };
+};
+const mapDispatchsToProps = dispatch => {
+    const props = dispatchAddToken(dispatch);
+
+    dispatchAddMessage(dispatch, props);
+
+    return props;
+};
+
+export default connect(mapStateToProps, mapDispatchsToProps)(Register);
