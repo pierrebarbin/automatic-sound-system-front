@@ -4,6 +4,8 @@ const dispatchDeleteMessage = (dispatch, object = {}) => {
     object.deleteMessage = id => {
         dispatch({type: 'DELETE', key: 'messages', id: id})
     };
+
+    return object;
 };
 
 const dispatchAddMessage = (dispatch, object = {}) => {
