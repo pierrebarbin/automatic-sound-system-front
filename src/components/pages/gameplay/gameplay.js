@@ -107,7 +107,7 @@ const Gameplay = props => {
                         setNbMusique(nbMusique+1);
                         setCurrentMusique(musique[0]);
                         childRef.current.nextVideo();
-                        setSeconds(setSeconds => 10);  
+                        setSeconds(setSeconds => 30);  
                         setWaiting(false);
                     }else{
                         document.getElementById("GameSearch").disabled = true;
