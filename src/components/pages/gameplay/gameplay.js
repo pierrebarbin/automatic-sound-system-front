@@ -387,23 +387,6 @@ const Gameplay = props => {
                                 </div>
 
                             </div>
-
-                        
-
-                            <div className="col-span-9">
-                                <GameplayHistory
-                                    gameHistory={gameHistory}
-                                    t={t}
-                                    score={score}
-                                />
-                            </div>
-                            <div className="col-span-3">
-                                <Classement
-                                    title={t("gameplay.classement.playlist")}
-                                    classementItems={classementPlaylist}
-                                    t={t}
-                                />
-                            </div>
                     </div>
                 </div>
             }
@@ -414,6 +397,23 @@ const Gameplay = props => {
                     <p className="font-semibold font-lg">Votre score est de : {score}</p>
                 </div>
             }
+
+            <div className="grid grid-cols-12 gap-2">
+                <div className="col-span-9">
+                    <GameplayHistory
+                        gameHistory={gameHistory}
+                        t={t}
+                        score={score}
+                    />
+                </div>
+                <div className="col-span-3">
+                    <Classement
+                        title={t("gameplay.classement.playlist")}
+                        classementItems={classementPlaylist}
+                        t={t}
+                    />
+                </div>
+            </div>
         </div>
 
     );
