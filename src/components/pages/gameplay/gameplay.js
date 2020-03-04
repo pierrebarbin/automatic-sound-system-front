@@ -55,6 +55,7 @@ const Gameplay = props => {
     const { t } = useTranslation();
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
+    const [finished,setFinished] = useState(false);
     const [valueInput, setValueInput] = useState("");
     const [init, setInit] = useState(true);
     const [gameHistory, setGameHistory] = useState([]);
@@ -106,7 +107,7 @@ const Gameplay = props => {
                         setNbMusique(nbMusique+1);
                         setCurrentMusique(musique[0]);
                         childRef.current.nextVideo();
-                        setSeconds(setSeconds => 30);  
+                        setSeconds(setSeconds => 10);  
                         setWaiting(false);
                     }else{
                         document.getElementById("GameSearch").disabled = true;
@@ -121,6 +122,8 @@ const Gameplay = props => {
                 }
                 else if (seconds == 0){
                     // TODO send score
+                    setFinished(true);
+                    setIsActive(false);
                     if (currentMusique.title != undefined){
                         addGameToHistory();
                     }
@@ -134,7 +137,7 @@ const Gameplay = props => {
 
         return () => clearInterval(interval);
 
-    }, [isActive, seconds,currentMusique]);
+    }, [isActive, seconds,currentMusique,finished]);
     //#endregion
 
     const handleSubmit = (event) => {
@@ -329,80 +332,90 @@ const Gameplay = props => {
 
     //#region html
     return (
-        <div className="bg-gray-900 p-4">
-            <div>
-                <YtPlayer musique={musique} ref={childRef}/>
-            </div>
-
-            <div className="grid grid-cols-12 gap-2">
-
-                    <div class="col-span-9">
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                id="GameSearch"
-                                className="w-full flex-grow bg-gray-800 placeholder-gray-500 p-2 rounded-lg focus:outline-none focus:shadow-outline"
-                                type="text"
-                                value={valueInput}
-                                autoComplete="off"
-                                onChange={e => setValueInput(e.target.value)}
-                            />
-                        </form>
+        <div className="bg-gray-900 p-4 box">
+            { finished == false && 
+                <div>
+                    <div>
+                        <YtPlayer musique={musique} ref={childRef}/>
                     </div>
 
-                    <div className="col-span-3 grid grid-cols-12">
-                        <div className="col-span-3">
-                            <button id="TitleFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
-                                <SVG
-                                    className="h-10 w-10 fill-current pt-2"
-                                    src={svgNote}
-                                    title="Titre trouvé"
-                                />
-                            </button>
-                            
-                        </div>
-                        <div className="col-span-3">
-                            <button id="ArtistFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
-                                <SVG
-                                    className="h-10 w-10 fill-current pt-2"
-                                    src={svgArtist}
-                                    title="Artiste trouvé"
-                                />
-                            </button>
-                            
-                        </div>
+                    <div className="grid grid-cols-12 gap-2">
+
+                            <div className="col-span-9">
+                                <form onSubmit={handleSubmit}>
+                                    <input
+                                        id="GameSearch"
+                                        className="w-full flex-grow bg-gray-800 placeholder-gray-500 p-2 rounded-lg focus:outline-none focus:shadow-outline"
+                                        type="text"
+                                        value={valueInput}
+                                        autoComplete="off"
+                                        onChange={e => setValueInput(e.target.value)}
+                                    />
+                                </form>
+                            </div>
+
+                            <div className="col-span-3 grid grid-cols-12">
+                                <div className="col-span-3">
+                                    <button id="TitleFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
+                                        <SVG
+                                            className="h-10 w-10 fill-current pt-2"
+                                            src={svgNote}
+                                            title="Titre trouvé"
+                                        />
+                                    </button>
+                                    
+                                </div>
+                                <div className="col-span-3">
+                                    <button id="ArtistFind" className="bg-gray-400 rounded text-yellow-600 p-1 cursor-default">
+                                        <SVG
+                                            className="h-10 w-10 fill-current pt-2"
+                                            src={svgArtist}
+                                            title="Artiste trouvé"
+                                        />
+                                    </button>
+                                    
+                                </div>
+                                
+
+                                <div className="col-span-6">
+                                    <div className="time">
+                                        {waiting?'En attente':"Extrait n° " + nbMusique}
+                                    </div>
+                                    <div className="time">
+                                        {seconds}s
+                                    </div>
+                                </div>
+
+                            </div>
+
                         
 
-                        <div className="col-span-6">
-                            <div className="time">
-                                {waiting?'En attente':"Extrait n° " + nbMusique}
+                            <div className="col-span-9">
+                                <GameplayHistory
+                                    gameHistory={gameHistory}
+                                    t={t}
+                                    score={score}
+                                />
                             </div>
-                            <div className="time">
-                                {seconds}s
+                            <div className="col-span-3">
+                                <Classement
+                                    title={t("gameplay.classement.playlist")}
+                                    classementItems={classementPlaylist}
+                                    t={t}
+                                />
                             </div>
-                        </div>
-
                     </div>
+                </div>
+            }
 
-                
-
-                    <div className="col-span-9">
-                        <GameplayHistory
-                            gameHistory={gameHistory}
-                            t={t}
-                            score={score}
-                        />
-                    </div>
-                    <div className="col-span-3">
-                        <Classement
-                            title={t("gameplay.classement.playlist")}
-                            classementItems={classementPlaylist}
-                            t={t}
-                        />
-                    </div>
-            </div>
-
-            
+            { finished == true && 
+                <div className="text-center">
+                    <p className="font-bold font-xl">LA partie est terminée !</p>
+                    <p className="font-semibold font-lg">Votre score est de : {score}</p>
+                </div>
+            }
         </div>
+
     );
 };
 //#endregion
