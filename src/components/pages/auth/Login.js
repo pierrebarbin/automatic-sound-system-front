@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import SVG from "react-inlinesvg";
 import {useTranslation} from "react-i18next";
 import LoginIllustration from "../../../assets/illustrations/undraw/undraw_authentication_fsn5.svg";
-import {getUserLogged, logIn} from '../../../service/entity/userService';
+import {logIn} from '../../../service/entity/userService';
 import {connect} from "react-redux";
 import {error, success} from "../../../model/Message/types";
 import {dispatchAddMessage} from "../../../actions/message";
+import {dispatchAddToken} from "../../../actions/token";
 
-const Login = ({addMessage}) => {
+const Login = ({addMessage, addToken}) => {
     const {t} = useTranslation();
-    
-    let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
@@ -26,13 +25,9 @@ const Login = ({addMessage}) => {
 
         logIn(email, password)
             .then(response => {
-                console.log(response);
-                //Redirection sur la page d'acceuil
                 if (response.status === 200) {
-                    getUserLogged().then(() => {
-                        history.push("/")
-                    });
-                    addMessage("Bienvenu sur Musicass !", success);
+                    addToken(response.data.token);
+                    addMessage("Bienvenue sur Musicass !", success);
                 }
             })
             .catch(requestError => {
@@ -45,7 +40,7 @@ const Login = ({addMessage}) => {
             })
         ;
     };
-   
+
     return (
         <div className="screen-without-header flex items-center justify-center">
             <div className="bg-gray-900 p-4 shadow-lg rounded-lg flex">
@@ -115,10 +110,16 @@ const Login = ({addMessage}) => {
 };
 
 const mapStateToProps = state => {
-    return {};
+    return {
+        user: state.authenticatedUser
+    };
 };
 const mapDispatchsToProps = dispatch => {
-    return dispatchAddMessage(dispatch);
+    const props = dispatchAddMessage(dispatch);
+
+    dispatchAddToken(dispatch, props);
+
+    return props;
 };
 
 export default connect(mapStateToProps, mapDispatchsToProps)(Login);

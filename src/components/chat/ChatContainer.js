@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import ChatForm from "./ChatForm";
 import ChatConversation from "./ChatConversation";
-import {isUserLogged} from "../../service/entity/userService";
 import {loadChats, loadLastChats, postChat} from "../../service/entity/chatService";
+import {connect} from "react-redux";
 
-const ChatContainer = props => {
+const ChatContainer = ({user}) => {
     const [messages, setMessages] = useState([]);
 
     const loadMessages = () => {
         let hasSetMessage = false;
 
-        if (isUserLogged()) {
+        if (user !== null) {
             const promise = (messages.length < 1)
                 ? loadChats()
                 : loadLastChats(messages[messages.length - 1].createdAt);
@@ -64,4 +64,10 @@ const ChatContainer = props => {
     );
 };
 
-export default ChatContainer;
+const mapStateToProps = state => {
+    return {
+        user: state.authenticatedUser
+    };
+};
+
+export default connect(mapStateToProps)(ChatContainer);

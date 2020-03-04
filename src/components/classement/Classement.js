@@ -1,8 +1,11 @@
 import React from "react";
 import ClassementItem from "./ClassementItem.js";
+import {useTranslation} from "react-i18next";
 
 //Classement est un objet composé de {id:int unique, username:string, score: int}
-const Classement = ({ title, classementItems, t }) => {
+const Classement = ({title, classementItems}) => {
+    const {t} = useTranslation();
+
     return (
         <div className="bg-gray-500 text-gray-900 p-4 rounded-lg shadow-lg">
             <h1 className="text-xl font-semibold">{title}</h1>
@@ -15,7 +18,7 @@ const Classement = ({ title, classementItems, t }) => {
                 <div>
                     {classementItems.map(player => {
                         return (
-                            <ClassementItem key={player.id} player={player} />
+                            <ClassementItem key={player.id} player={player}/>
                         );
                     })}
                 </div>

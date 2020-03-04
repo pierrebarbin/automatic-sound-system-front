@@ -1,6 +1,5 @@
 import {axiosAnonymous, axiosAuthenticated} from '../axios/axios';
-import {hasToken, removeToken, setToken} from "../sessionStorage/tokenService";
-import {hasUser, setUser,removeUser} from "../sessionStorage/userService";
+import {setToken} from "../sessionStorage/tokenService";
 
 //Se connecter
 const logIn = (email, password) => {
@@ -18,66 +17,56 @@ const logIn = (email, password) => {
                 }
                 resolve(response);
             })
-            .catch(error => {reject(error)});
+            .catch(error => {
+                reject(error)
+            });
     });
 };
 
 //S'inscrire
 const register = (email, username, password) => {
+    const data = {
+        email: email,
+        username: username,
+        plainPassword: password
+    };
+
     return new Promise((resolve, reject) => {
-        axiosAnonymous.post('/register', {
-            email: email,
-            username: username,
-            plainPassword: password
-        })
+        axiosAnonymous.post('/register', data)
             .then(response => {
                 if (response.status === 200) {
                     setToken(response.data.token);
+                    resolve(response);
+                } else {
+                    reject({response: response});
                 }
-                resolve(response.status);
             })
             .catch(error => {
-                console.log({error});
-                reject(error);
+                reject({user: null, error: error});
             });
     });
 };
 
-//Se déconnecter
-const logOut = () => {
-    removeToken();
-    removeUser();
-};
-
-const isUserLogged = () => hasToken() && hasUser();
-
 const getUserLogged = () => {
-    return new Promise(resolve => {
-        if (hasToken()) {
-            axiosAuthenticated.get('/users/current')
-                .then(response => {
-                    if (response.status === 200) {
-                        setUser(response.data);
-                        resolve({user: response.data});
-                    } else {
-                        removeToken();
-                        resolve({user: null});
-                    }
-                })
-                .catch(error => {
-                    removeToken();
-
-                    resolve({
+    return new Promise((resolve, reject) => {
+        axiosAuthenticated.get('/users/current')
+            .then(response => {
+                if (response.status === 200) {
+                    resolve({user: response.data});
+                } else {
+                    reject({
                         user: null,
-                        error: error
+                        response: response
                     });
-                })
-        } else {
-            removeToken();
-
-            resolve({user: null});
-        }
+                }
+            })
+            .catch(error => {
+                reject({
+                    user: null,
+                    response: error.response
+                });
+            })
     });
 };
 
-export {register, logIn, logOut, isUserLogged, getUserLogged};
+export {register, logIn, getUserLogged};
