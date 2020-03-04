@@ -7,7 +7,7 @@ import {getUserLogged, logIn} from '../../../service/entity/userService';
 
 const Login = props => {
     const {t} = useTranslation();
-
+    
     let history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -35,7 +35,7 @@ const Login = props => {
                     setMsgErrors("Email ou mot de passe invalide.");
             });
     };
-
+   
     return (
         <div className="screen-without-header flex items-center justify-center">
             <div className="bg-gray-900 p-4 shadow-lg rounded-lg flex">

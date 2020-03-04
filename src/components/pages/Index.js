@@ -2,19 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Classement from "../classement/Classement.js";
 import TablePlayList from "../home/HomeTablePlaylist";
+import HomeTablePlaylist from '../home/HomeTablePlaylist';
 import SVG from "react-inlinesvg";
 import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
+import {logOut,isUserLogged} from '../../service/entity/userService';
 
 const Index = props => {
     const { t } = useTranslation();
     const [classementItems, setClassementItems] = useState([]);
     const [playlists, setPlaylists] = useState([]);
+    const [isUserLog, setIsuserlogged] = useState(isUserLogged);     
 
     useEffect(() => {
+        usrupd () 
         getClassement();
         getPlaylist();
     }, []);
-
+    function usrupd () {
+        setIsuserlogged(isUserLogged);
+      }
     const getClassement = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setClassementItems([
@@ -135,18 +141,7 @@ const Index = props => {
         <div>
             <div className="flex items-center justify-center screen-without-header">
                 <div className="w-3/5 px-20">
-                    <h1 className="text-6xl font-bold">Musicass</h1>
-                    <p className="text-lg leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Aliquam vitae lorem turpis. Etiam sollicitudin, lectus
-                        sit amet gravida hendrerit, lacus augue viverra dolor,
-                        sed sagittis odio nulla vitae tellus. Suspendisse ut
-                        auctor quam. Quisque volutpat ex nunc, non interdum enim
-                        hendrerit vitae. Sed a aliquam tortor. Praesent mi
-                        tellus, volutpat a dictum non, sagittis id nulla.
-                        Quisque rhoncus mattis ipsum quis lacinia. Mauris varius
-                        nibh id metus venenatis lobortis.
-                    </p>
+                <h1>Playlists</h1>
                 </div>
                 <div className="w-2/5">
                     <SVG

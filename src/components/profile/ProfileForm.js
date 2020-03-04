@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import SVG from "react-inlinesvg";
 import CameraIcon from "../../assets/icons/zondicons/camera.svg";
 import ProfileIllustration from "../../assets/illustrations/undraw/undraw_profile_6l1l.svg";
 
-const ProfileForm = () => {
+const ProfileForm = (props) => {
     const { t } = useTranslation();
 
     const [login, setLogin] = useState("Steven");
     const [mail, setMail] = useState("Steven@test.com");
     const [pwd, setPwd] = useState("");
     const [confpwd, SetConfPwd] = useState("");
-
+    const [usr, setUsr] = useState(props.usr);     
+    useEffect(() => {
+        // Met à jour le titre du document via l’API du navigateur
+    //usrupd();
+    console.log(props.user);
+    });
     const onChangeLogin = event => {
         setLogin(event.target.value);
     };
@@ -27,6 +32,7 @@ const ProfileForm = () => {
     const onChangeConfPwd = event => {
         SetConfPwd(event.target.value);
     };
+    
     return (
         <div className="flex items-center justify-center my-4">
             <div className="flex">
@@ -59,7 +65,7 @@ const ProfileForm = () => {
                             type="text"
                             name="Login"
                             id="Login"
-                            value={login}
+                            value={props.user.username}
                             onChange={() => onChangeLogin}
                             readOnly
                         />
@@ -70,7 +76,7 @@ const ProfileForm = () => {
                             className="bg-gray-500 text-gray-900 p-2 rounded-lg focus:outline-none focus:shadow-outline placeholder-gray-400 "
                             type="text"
                             name="Mail"
-                            value={mail}
+                            value={props.user.email}
                             onChange={() => onChangeMail}
                             readOnly
                         />

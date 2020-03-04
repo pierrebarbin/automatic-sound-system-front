@@ -6,7 +6,6 @@ export function loadWorker() {
     const applicationKey = 'BItoVHgEImb1oDvlVaCchsKAHOQNjbclddgfp7mlfZUmKwMIgqlgI5t8bBYRWWNlic3uViiU4ZbIRU6rmRuX_Ac';
     const subscribeApiEndpoint = "https://musicass.esimed.fr/api/notification/register/";
     const unsubscribeApiEndpoint = "http://musicass.esimed.fr/api/notification/unregister/";
-
 //Here check if we can use ServiceWorker and Push notification
     if (!AppServiceWorker.isSupported() || !NotificationPushService.isSupported()) {
         console.error("Service Worker and Notification Push are not supported by your navigator");
