@@ -98,13 +98,18 @@ const App = ({token, user, addAuthenticatedUser, deleteToken}) => {
 
     return (
         <div className="bg-gray-800 text-gray-500 min-h-full">
-            <Toaster/>
             <Router>
                 <TheHeader/>
                 <div className="w-4/5 pt-24 px-4">
                     <RouteConfig/>
                 </div>
-                <TheRightSidePanel users={users}/>
+                {(token === null) ? '' : (
+                    <div>
+                        <Toaster/>
+                        <TheRightSidePanel users={users}/>
+                    </div>
+                )
+                }
             </Router>
         </div>
     );

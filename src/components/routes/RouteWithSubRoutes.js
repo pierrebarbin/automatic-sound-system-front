@@ -3,11 +3,11 @@ import {Route, useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 
 const RouteWithSubRoutes = (props) => {
-    const {exact, path, routes, isGranted, redirect, user} = props;
+    const {exact, path, routes, isGranted, redirect, token} = props;
     let history = useHistory();
 
     useEffect(() => {
-        if (!isGranted(user)) {
+        if (!isGranted(token)) {
             history.push(redirect);
         }
     });
@@ -28,7 +28,7 @@ const RouteWithSubRoutes = (props) => {
 
 const mapStateToProps = state => {
     return {
-        user: state.authenticatedUser
+        token: state.token
     };
 };
 

@@ -8,9 +8,9 @@ import {
 const RouteConfig = props => {
     return (
         <Switch>
-                {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route} {...props}/>
-                ))}
+            {routes.map((route, i) => (
+                <RouteWithSubRoutes key={i} {...route} {...props}/>
+            ))}
         </Switch>
     );
 };
