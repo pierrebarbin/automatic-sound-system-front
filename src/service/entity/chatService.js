@@ -21,7 +21,7 @@ const loadChats = () => {
         axiosAuthenticated.get('/chats/load')
             .then(response => {
                 if (response.status === 200) {
-                    resolve(response.data);
+                    resolve(response);
                 } else {
                     reject(response);
                 }
@@ -41,7 +41,7 @@ const loadLastChats = (lastCreatedAt) => {
         })
             .then(response => {
                 if (response.status === 200) {
-                    resolve(response.data);
+                    resolve(response);
                 } else {
                     reject(response);
                 }

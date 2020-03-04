@@ -1,6 +1,7 @@
 import {getToken} from "./service/sessionStorage/tokenService";
 
 const initState = {
+    chats: [],
     messages: [],
     token: getToken(),
     authenticatedUser: null
@@ -59,6 +60,11 @@ const reducer = (state = initState, action) => {
             default:
                 break;
         }
+    } else if (action.key === 'chats' && action.type === 'CREATE') {
+        state = {
+            ...state,
+            chats: [...state.chats, ...action.chats]
+        };
     }
 
     return state;

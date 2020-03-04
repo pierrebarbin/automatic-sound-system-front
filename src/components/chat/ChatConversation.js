@@ -1,25 +1,18 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Scrollbars} from 'react-custom-scrollbars';
 import ChatConversationItem from "./ChatConversationItem";
+import {connect} from "react-redux";
 
-const ChatConversation = props => {
+const ChatConversation = ({chats}) => {
     const scrollbar = useRef();
 
-    const [isInit, setIsInit] = useState(false);
-
-    const onUpdate = () => {
-        if (!isInit && props.messages.length > 0) {
-            scrollbar.current.scrollToBottom();
-            setIsInit(true);
-        }
-    };
+    useEffect(() => scrollbar.current.scrollToBottom);
 
     return (
         <Scrollbars
             ref={scrollbar}
-            onUpdate={onUpdate}
         >
-            {props.messages.map(message => {
+            {chats.map(message => {
                 return (
                     <ChatConversationItem key={message.id} message={message}/>
                 );
@@ -28,4 +21,10 @@ const ChatConversation = props => {
     );
 };
 
-export default ChatConversation;
+const mapStateToProps = state => {
+    return {
+        chats: state.chats
+    };
+};
+
+export default connect(mapStateToProps)(ChatConversation);
