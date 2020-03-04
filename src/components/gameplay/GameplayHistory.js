@@ -3,7 +3,7 @@ import HistoryItem from "./GameplayHistoryItem.js";
 const GameplayHistory = ({ gameHistory, t, score }) => {
     return (
         <div className="bg-gray-500 text-gray-900 p-4 rounded-lg shadow-lg">
-            <span className="float-right">{t("gameplay.history.score")} {score}</span>
+            <span className="float-right font-bold">{t("gameplay.history.score")} {score}</span>
             <h1 className="text-xl font-semibold">
                 {t("gameplay.history.title")}
             </h1>

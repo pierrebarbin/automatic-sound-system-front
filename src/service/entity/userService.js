@@ -4,25 +4,21 @@ import {hasUser, setUser,removeUser} from "../sessionStorage/userService";
 
 //Se connecter
 const logIn = (email, password) => {
-    return new Promise((resolve, reject) => {
-        const data = {
-            email: email,
-            plainPassword: password
-        };
+    const data = {
+        email: email,
+        plainPassword: password
+    };
 
+    return new Promise((resolve, reject) => {
         axiosAnonymous.post('/login', data)
             .then(response => {
                 //Création du token si la requête a réussie
                 if (response.status === 200) {
                     setToken(response.data.token);
                 }
-                //retour du status
-                resolve(response.status);
+                resolve(response);
             })
-            .catch(error => {
-                console.log({error});
-                reject(error);
-            });
+            .catch(error => {reject(error)});
     });
 };
 
