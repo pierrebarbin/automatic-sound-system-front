@@ -1,25 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ChatForm from "./ChatForm";
 import ChatConversation from "./ChatConversation";
 import {loadChats, loadLastChats, postChat} from "../../service/entity/chatService";
 import {connect} from "react-redux";
+import {dispatchAddChats} from "../../actions/chat";
 
-const ChatContainer = ({user}) => {
-    const [messages, setMessages] = useState([]);
-
+const ChatContainer = ({user, chats, addChats}) => {
     const loadMessages = () => {
         let hasSetMessage = false;
 
         if (user !== null) {
-            const promise = (messages.length < 1)
+            const promise = (chats.length < 1)
                 ? loadChats()
-                : loadLastChats(messages[messages.length - 1].createdAt);
+                : loadLastChats(chats[chats.length - 1].createdAt);
 
-            // Ajoute les derniers messages depuis le dernier load ou tous les messages si il n'y en a pas
+            // Ajoute les derniers chats depuis le dernier load ou tous les chats si il n'y en a pas
             promise
-                .then(chats => {
-                    if (chats.length > 0) {
-                        setMessages([...messages, ...chats]);
+                .then(response => {
+                    if (response.data.length > 0) {
+                        addChats([...response.data]);
                         hasSetMessage = true
                     }
                 })
@@ -31,8 +30,7 @@ const ChatContainer = ({user}) => {
                     if (!hasSetMessage) {
                         setTimeout(loadMessages, 1000);
                     }
-                })
-            ;
+                });
         }
     };
 
@@ -55,7 +53,7 @@ const ChatContainer = ({user}) => {
     return (
         <div className="flex flex-col content">
             <div className="chat-conversation">
-                <ChatConversation messages={messages}/>
+                <ChatConversation/>
             </div>
             <div className="mt-1">
                 <ChatForm addMessages={addMessage}/>
@@ -66,8 +64,13 @@ const ChatContainer = ({user}) => {
 
 const mapStateToProps = state => {
     return {
-        user: state.authenticatedUser
+        user: state.authenticatedUser,
+        chats: state.chats
     };
 };
 
-export default connect(mapStateToProps)(ChatContainer);
+const mapDispatchsToProps = dispatch => {
+    return dispatchAddChats(dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchsToProps)(ChatContainer);
