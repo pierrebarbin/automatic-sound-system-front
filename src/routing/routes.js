@@ -6,8 +6,8 @@ import Profile from "../components/pages/profile/Profile.js";
 import Gameplay from "../components/pages/gameplay/gameplay.js";
 
 
-const isAuthenticated = user => user !== null;
-const isAnonymous = user => user === null;
+const isAuthenticated = token => token !== null;
+const isAnonymous = token => token === null;
 
 export const routes = [
     {
