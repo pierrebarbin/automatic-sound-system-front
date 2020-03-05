@@ -33,6 +33,7 @@ export default {
             cancel: "Annuler",
             create: "Créer la playlist",
             inputs: {
+                thumbnail:"Miniature",
                 title: "Titre",
                 artist: "Artiste",
                 yt_title: "Titre Youtube"

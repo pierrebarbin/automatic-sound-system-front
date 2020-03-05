@@ -5,9 +5,35 @@ export function insert(playlist) {
 }
 
 export function postUrl(paramListofUrl) {
-    var tracks = [];
-    axiosAuthenticated.post(`/tracks/youtube/playlist`, paramListofUrl).then(res => {
-        tracks = res;
+
+    return new Promise((resolve, reject) => {
+        axiosAuthenticated.post('/tracks/youtube/playlist?yt_playlist_id='+paramListofUrl)
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(response);
+                }
+            })
+            .catch(error => {
+                reject(error)
+            });
     });
-    return tracks;
+}
+
+export function savePlaylist(data){
+
+    return new Promise((resolve, reject) => {
+        axiosAuthenticated.post('/playlists',data)
+            .then(response => {
+                if (response.status === 201) {
+                    resolve(response.data);
+                } else {
+                    reject(response);
+                }
+            })
+            .catch(error => {
+                reject(error)
+            });
+    });
 }

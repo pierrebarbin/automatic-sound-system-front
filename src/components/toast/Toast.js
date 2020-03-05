@@ -14,7 +14,7 @@ const Toast = ({message, deleteMessage}) => {
 
     return (
         <div
-            className={`${color} close cursor-pointer flex items-start justify-between w-full p-2 h-16 mt-4 rounded shadow-lg text-white`}
+            className={`${color} close z-50 cursor-pointer flex items-start justify-between w-full p-2 h-16 mt-4 rounded shadow-lg text-white`}
             role="alert"
             data-id-message={message.id}
             onClick={handleClick}>
