@@ -50,7 +50,7 @@ const Gameplay = props => {
                         isWin: 0
                     };
                 }));
-
+                
                 let ReadyInterval = window.setInterval(() => {
                     if (childRef.current.playerIsReady()) {
                         window.clearInterval(ReadyInterval);
@@ -67,7 +67,7 @@ const Gameplay = props => {
     //#region useEffect
     useEffect(() => {
         let interval = null;
-
+        console.log(musique);
         if (isActive) {
             if (seconds != 0) {
                 interval = setInterval(() => {
@@ -161,7 +161,7 @@ const Gameplay = props => {
 
             case 3:
                 if (!singerFind && !musiqueFind) {
-                    setMusique(true);
+                    setMusiqueFind(true);
                     setSingerFind(true);
                     currentMusique.isWin = 3;
                     setCurrentMusique(currentMusique);
