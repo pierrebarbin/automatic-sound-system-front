@@ -6,27 +6,34 @@ import ValidateIcon from "../../assets/icons/zondicons/checkmark.svg";
 import CancelIcon from "../../assets/icons/zondicons/close.svg";
 import { useTranslation } from "react-i18next";
 
-const CreatePlaylistItem = ({ response, removeTrack }) => {
+const CreatePlaylistItem = ({ response, removeTrack,checkValidite }) => {
     const { t } = useTranslation();
 
-    const { title, artist, track, id } = response;
+    // const { title, artist, track, id } = response;
+    const { YTTitle, id, thumbnails, validLine , singer , title } = response;
 
-    const [editedTitle, setTitle] = useState(title);
-    const [editedArtist, setArtist] = useState(artist);
+    const [editedTitle, setTitle] = useState("");
+    const [editedArtist, setArtist] = useState("");
     const [isEdition, setIsEdition] = useState(false);
-    const [editingTitle, setEditingTitle] = useState(title);
-    const [editingArtist, setEditingArtist] = useState(artist);
+    const [editingTitle, setEditingTitle] = useState("");
+    const [editingArtist, setEditingArtist] = useState("");
 
     const onTitleEditedChange = event => setEditingTitle(event.target.value);
     const onArtistEditedChange = event => setEditingArtist(event.target.value);
 
-    const edit = () => {
-        if (editedTitle === "" && editedArtist === "") {
-            return;
-        }
-        setTitle(editingTitle);
-        setArtist(editingArtist);
+    const edit = (identifiant) => {
+        // if (editedTitle === "" && editedArtist === "") {
+        //     return;
+        // }
+        // setTitle(editingTitle);
+        // setArtist(editingArtist);
+        
+        response.title = editingTitle;
+        response.singer = editingArtist;
+        response.track = "/api/tracks/"+identifiant;
+        
         setIsEdition(false);
+        checkValidite();
     };
 
     const cancel = () => {
@@ -37,7 +44,14 @@ const CreatePlaylistItem = ({ response, removeTrack }) => {
 
     const renderTitle = () => {
         if (!isEdition) {
-            return <span>{editedTitle}</span>;
+            if ( title == undefined || title.trim() == "" ){
+                return ( 
+                    <div className="bg-red-600 p-1 h-8 rounded-lg focus:outline-none focus:shadow-outline w-full"></div>  
+                )
+            }
+            else{
+                return <span>{title}</span>;
+            }
         }
 
         return (
@@ -54,7 +68,14 @@ const CreatePlaylistItem = ({ response, removeTrack }) => {
 
     const renderArtist = () => {
         if (!isEdition) {
-            return <span>{editedArtist}</span>;
+            if ( singer == undefined || singer.trim() == "" ){
+                return ( 
+                    <div className="bg-red-600 p-1 h-8 rounded-lg focus:outline-none focus:shadow-outline w-full"></div>
+                )
+            }
+            else{
+                return <span>{singer}</span>;
+            }
         }
 
         return (
@@ -70,17 +91,19 @@ const CreatePlaylistItem = ({ response, removeTrack }) => {
     };
 
     return (
-        <div className="flex mt-2">
-            <div className="flex-1 px-1">{renderTitle()}</div>
-            <div className="flex-1 px-1">{renderArtist()}</div>
-            <div className="flex-1 px-1">{track.yttitle}</div>
+        
+        <div className="flex mt-2" >
+            <div className="flex-1 px-1"> <img src={thumbnails} className="w-48 h-32"/> </div>
+            <div className="flex-1 px-1">{YTTitle}</div>
+            <div className="flex-1 px-1" >{renderTitle()}</div>
+            <div className="flex-1 px-1" >{renderArtist()}</div>
             <div className="flex-1 px-1">
                 {isEdition ? (
                     <span>
                         <button
                             className="text-green-700 ml-2"
                             type="button"
-                            onClick={() => edit()}
+                            onClick={() => edit(id)}
                         >
                             <SVG
                                 className="w-5 h-5 fill-current"
