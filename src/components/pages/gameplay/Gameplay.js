@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import SVG from "react-inlinesvg";
+import {useHistory} from "react-router-dom";
 import Classement from "../../classement/Classement";
 import GameplayHistory from "../../gameplay/GameplayHistory";
 import {useTranslation} from "react-i18next";
@@ -7,51 +8,15 @@ import GameSearch from "../../../service/GameSearch.js";
 import YtPlayer from "../../common/ytplayer.js";
 import svgNote from "../../../assets/icons/zondicons/music-notes.svg";
 import svgArtist from "../../../assets/icons/zondicons/music-artist.svg";
+import {getPlaylist} from "../../../service/entity/playlistService";
 
 // pour le timer voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
-
-
 const Gameplay = props => {
+    const history = useHistory();
 
     //#region useState
-    const [musique, setMusique] = useState([
-        {
-            id: 1,
-            url: "https://www.youtube.com/watch?v=y6120QOlsfU",
-            title: "Sandstorm",
-            singer: "Darude",
-            bSinger: true,
-            bTitle: true,
-            isWin: 0
-        },
-        {
-            id: 2,
-            url: "https://www.youtube.com/watch?v=zA52uNzx7Y4",
-            title: "Blue",
-            singer: "Eiffel 65",
-            bSinger: true,
-            bTitle: true,
-            isWin: 0
-        },
-        {
-            id: 3,
-            url: "https://www.youtube.com/watch?v=SYnVYJDxu2Q",
-            title: "Rasputin",
-            singer: "Boney M.",
-            bSinger: true,
-            bTitle: true,
-            isWin: 0
-        },
-        {
-            id: 4,
-            url: "https://www.youtube.com/watch?v=Nnu1E5Kslig",
-            title: "Stairway To Heaven",
-            singer: "Led Zeppelin",
-            bSinger: true,
-            bTitle: true,
-            isWin: 0
-        },
-    ]);
+    const [playlist, setPlaylist] = useState(null);
+    const [musique, setMusique] = useState(null);
     const {t} = useTranslation();
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
@@ -69,23 +34,39 @@ const Gameplay = props => {
     //#endregion
     const childRef = useRef();
 
+    if (playlist === null) {
+        getPlaylist(props.match.params.id)
+            .then(response => {
+                setPlaylist(response.data);
+
+                setMusique(response.data.results.map(result => {
+                    return {
+                        id: result.id,
+                        url: `https://www.youtube.com/watch?v=${result.track.YTUrlId}`,
+                        title: result.title,
+                        singer: result.singer,
+                        bSinger: true,
+                        bTitle: true,
+                        isWin: 0
+                    };
+                }));
+
+                let ReadyInterval = window.setInterval(() => {
+                    if (childRef.current.playerIsReady()) {
+                        window.clearInterval(ReadyInterval);
+                        setInit(false);
+                        setIsActive(!isActive);
+                    }
+                }, 2000);
+            })
+            .catch(data => {
+                history.push('/404');
+            });
+    }
+
     //#region useEffect
     useEffect(() => {
-
         let interval = null;
-
-        if (init) {
-
-            let ReadyInterval = window.setInterval(() => {
-                if (childRef.current.playerIsReady()) {
-                    window.clearInterval(ReadyInterval);
-                    setInit(false)
-                    setIsActive(!isActive);
-                }
-            }, 2000)
-
-            getClassement();
-        }
 
         if (isActive) {
             if (seconds != 0) {
@@ -324,7 +305,9 @@ const Gameplay = props => {
             {finished == false &&
             <div>
                 <div>
-                    <YtPlayer musique={musique} ref={childRef}/>
+                    {musique != null &&
+                        <YtPlayer musique={musique} ref={childRef}/>
+                    }
                 </div>
 
                 <div className="grid grid-cols-12 gap-2">

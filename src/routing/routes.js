@@ -3,7 +3,8 @@ import Login from "../components/pages/auth/Login.js";
 import Register from "../components/pages/auth/Register.js";
 import CreatePlaylist from "../components/pages/createPlaylist/CreatePlaylist";
 import Profile from "../components/pages/profile/Profile.js";
-import Gameplay from "../components/pages/gameplay/gameplay.js";
+import Gameplay from "../components/pages/gameplay/Gameplay.js";
+import Error404 from "../components/pages/error/Error404";
 
 
 const isAuthenticated = token => token !== null;
@@ -42,9 +43,15 @@ export const routes = [
         redirect: "/login"
     },
     {
-        path: "/play",
+        path: "/play/:id",
         component: Gameplay,
         isGranted: isAuthenticated,
+        redirect: "/login"
+    },
+    {
+        path: "/404",
+        component: Error404,
+        isGranted: () => true,
         redirect: "/login"
     }
 ];

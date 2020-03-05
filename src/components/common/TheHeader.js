@@ -36,9 +36,9 @@ const TheHeader = ({user, deleteToken}) => {
                     <div>
                         {(user !== null)
                             ? (
-                                <div>
+                                <div className="inline-flex">
                                     <Link
-                                        className="block p-1 bg-gray-800 rounded-full hover:shadow-lg "
+                                        className="flex-1 block p-2 mr-2 bg-gray-800 rounded-full hover:shadow-lg "
                                         to="/profile"
                                     >
                                         <SVG
@@ -48,7 +48,7 @@ const TheHeader = ({user, deleteToken}) => {
                                         />
                                     </Link>
                                     <button
-                                        className="block p-2 bg-gray-800 rounded-full hover:shadow-lg "
+                                        className="flex-1 block p-2 mr-2 bg-gray-800 rounded-full hover:shadow-lg "
                                         onClick={() => onLogOut()}
                                     >
                                         <SVG
