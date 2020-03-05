@@ -110,5 +110,10 @@ export default {
         classement: {
             playlist: "Classement de la playlist"
         }
+    },
+    playlist: {
+        name: "Titre de la playlist",
+        play: "Jouer",
+        create: "Créer une partie"
     }
 };

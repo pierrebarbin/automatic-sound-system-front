@@ -3,7 +3,6 @@ import YouTube from 'react-youtube';
 import soundfile from '../../assets/sounds/blindtest.mp3'
 
 const Ytplayer = forwardRef((props, ref) => {
-
     const [url, SetUrl] = useState(props.musique);
 
     const [Player,setYtPlayer] = useState(undefined);
@@ -99,7 +98,7 @@ const Ytplayer = forwardRef((props, ref) => {
             rel:0,          // pas de proposition de vidéo a la fin de lecture
             fs:0,           // pas de fullscreen
             start:20,       // débute la vidéo a 20sec
-            end:40          // durée de 30 sec ( 20 + 30 )
+            end:50          // durée de 30 sec ( 20 + 30 )
         }
     };
    

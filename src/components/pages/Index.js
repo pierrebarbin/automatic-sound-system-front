@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
 import Classement from "../classement/Classement.js";
 import TablePlayList from "../home/HomeTablePlaylist";
 import SVG from "react-inlinesvg";
 import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
+import {getPlaylists} from "../../service/entity/playlistService";
+import PlayPlaylistTableItem from "../table/playlist/play/PlayPlaylistTableItem";
+import PlayPlaylistTable from "../table/playlist/play/PlayPlaylistTable";
 
 const Index = props => {
-    const {t} = useTranslation();
-    const [classementItems, setClassementItems] = useState([]);
+    const [playlists, setPlaylists] = useState(null);
+
+    /*const [classementItems, setClassementItems] = useState([]);
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
@@ -128,11 +131,22 @@ const Index = props => {
                 npu: 14
             }
         ]);
-    };
+    };*/
+
+    if (playlists === null) {
+        getPlaylists()
+            .then(response => {
+                setPlaylists([...response.data]);
+            })
+            .catch(error => {
+                setPlaylists([]);
+            });
+    }
 
     return (
         <div>
-            <div className="flex items-center justify-center screen-without-header">
+            <PlayPlaylistTable playlists={playlists}/>
+            {/*<div className="flex items-center justify-center screen-without-header">
                 <div className="w-3/5 px-20">
                     <h1>Playlists</h1>
                 </div>
@@ -143,8 +157,8 @@ const Index = props => {
                         title={t("create_playlist.title")}
                     />
                 </div>
-            </div>
-            <div className="flex pl-16">
+            </div>*/}
+            {/*<div className="flex pl-16">
                 <div className="flex-grow-0 px-2">
                     <Classement
                         classementItems={classementItems}
@@ -154,7 +168,7 @@ const Index = props => {
                 <div className="flex-grow pl-2">
                     <TablePlayList playlists={playlists}/>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 };
