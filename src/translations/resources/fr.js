@@ -113,6 +113,7 @@ export default {
     },
     playlist: {
         name: "Titre de la playlist",
-        play: "Jouer"
+        play: "Jouer",
+        create: "Créer une partie"
     }
 };
