@@ -33,6 +33,7 @@ export default {
             cancel: "Annuler",
             create: "Créer la playlist",
             inputs: {
+                thumbnail:"Miniature",
                 title: "Titre",
                 artist: "Artiste",
                 yt_title: "Titre Youtube"
@@ -110,5 +111,10 @@ export default {
         classement: {
             playlist: "Classement de la playlist"
         }
+    },
+    playlist: {
+        name: "Titre de la playlist",
+        play: "Jouer",
+        create: "Créer une partie"
     }
 };

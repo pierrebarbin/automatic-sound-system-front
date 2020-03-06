@@ -1,8 +1,10 @@
 import Message from "../model/Message/Message";
 
+const key = 'messages';
+
 const dispatchDeleteMessage = (dispatch, object = {}) => {
     object.deleteMessage = id => {
-        dispatch({type: 'DELETE', key: 'messages', id: id})
+        dispatch({type: 'DELETE', key: key, id: id})
     };
 
     return object;
@@ -14,12 +16,12 @@ const dispatchAddMessage = (dispatch, object = {}) => {
 
         dispatch({
             type: 'CREATE',
-            key: 'messages',
+            key: key,
             message: message
         });
 
         setTimeout(() => {
-            dispatch({type: 'DELETE', key: 'messages', id: message.id})
+            dispatch({type: 'DELETE', key: key, id: message.id})
         }, duration);
     };
 

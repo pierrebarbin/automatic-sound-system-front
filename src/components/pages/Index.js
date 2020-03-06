@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import Classement from "../classement/Classement.js";
-import TablePlayList from "../home/HomeTablePlaylist";
-import SVG from "react-inlinesvg";
-import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
+import React, {useEffect, useState} from "react";
+import {connect} from "react-redux";
+import {getPlaylists} from "../../service/entity/playlistService";
+import PlayPlaylistTable from "../table/playlist/play/PlayPlaylistTable";
 
-const Index = props => {
-    const { t } = useTranslation();
-    const [classementItems, setClassementItems] = useState([]);
+const Index = ({token}) => {
+    const [playlists, setPlaylists] = useState(null);
+
+    /*const [classementItems, setClassementItems] = useState([]);
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
@@ -95,11 +94,10 @@ const Index = props => {
             }
         ]);
     };
-
     const getPlaylist = event => {
         //TODO : Utiliser Axios et taper sur l'api
         setPlaylists([
-            { id: 1, title: "ut nisi", scoreMax: 21, creator: "Nasim", npu: 7 },
+            {id: 1, title: "ut nisi", scoreMax: 21, creator: "Nasim", npu: 7},
             {
                 id: 2,
                 title: "gravida nunc",
@@ -129,24 +127,26 @@ const Index = props => {
                 npu: 14
             }
         ]);
-    };
+    };*/
+
+    useEffect(() => {
+        if (token !== null && playlists === null) {
+            getPlaylists()
+                .then(response => {
+                    setPlaylists([...response.data]);
+                })
+                .catch(error => {
+                    setPlaylists([]);
+                });
+        }
+    });
 
     return (
         <div>
-            <div className="flex items-center justify-center screen-without-header">
+            <PlayPlaylistTable playlists={playlists}/>
+            {/*<div className="flex items-center justify-center screen-without-header">
                 <div className="w-3/5 px-20">
-                    <h1 className="text-6xl font-bold">Musicass</h1>
-                    <p className="text-lg leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Aliquam vitae lorem turpis. Etiam sollicitudin, lectus
-                        sit amet gravida hendrerit, lacus augue viverra dolor,
-                        sed sagittis odio nulla vitae tellus. Suspendisse ut
-                        auctor quam. Quisque volutpat ex nunc, non interdum enim
-                        hendrerit vitae. Sed a aliquam tortor. Praesent mi
-                        tellus, volutpat a dictum non, sagittis id nulla.
-                        Quisque rhoncus mattis ipsum quis lacinia. Mauris varius
-                        nibh id metus venenatis lobortis.
-                    </p>
+                    <h1>Playlists</h1>
                 </div>
                 <div className="w-2/5">
                     <SVG
@@ -155,21 +155,26 @@ const Index = props => {
                         title={t("create_playlist.title")}
                     />
                 </div>
-            </div>
-            <div className="flex pl-16">
+            </div>*/}
+            {/*<div className="flex pl-16">
                 <div className="flex-grow-0 px-2">
                     <Classement
                         classementItems={classementItems}
                         title={t("home.classement.title")}
-                        t={t}
                     />
                 </div>
                 <div className="flex-grow pl-2">
-                    <TablePlayList playlists={playlists} t={t} />
+                    <TablePlayList playlists={playlists}/>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 };
 
-export default Index;
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    };
+};
+
+export default connect(mapStateToProps)(Index);

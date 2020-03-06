@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, useHistory} from "react-router-dom";
+import {connect} from "react-redux";
 
 const RouteWithSubRoutes = (props) => {
-    const {exact, path, routes, isGranted, redirect} = props;
+    const {exact, path, routes, isGranted, redirect, token} = props;
     let history = useHistory();
 
-    if (!isGranted(props)) {
-        history.push(redirect);
-    }
+    useEffect(() => {
+        if (!isGranted(token)) {
+            history.push(redirect);
+        }
+    });
 
     return (
         <Route
@@ -23,4 +26,10 @@ const RouteWithSubRoutes = (props) => {
     );
 };
 
-export default RouteWithSubRoutes;
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    };
+};
+
+export default connect(mapStateToProps)(RouteWithSubRoutes);

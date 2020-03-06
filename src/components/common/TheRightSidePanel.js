@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 import TheRightSidePanelHeader from "./TheRightSidePanelHeader";
 import TheRightSidePanelContent from "./TheRightSidePanelContent";
 
 const TheRightSidePanel = props => {
 
-    const [tab, setTab] = useState('users');
+    const [tab, setTab] = useState('chat');
 
     const changeTab = tab => setTab(tab);
 
@@ -21,10 +20,6 @@ const TheRightSidePanel = props => {
             </div>
         </div>
     );
-};
-
-TheRightSidePanel.propTypes = {
-    users: PropTypes.array.isRequired
 };
 
 export default TheRightSidePanel;

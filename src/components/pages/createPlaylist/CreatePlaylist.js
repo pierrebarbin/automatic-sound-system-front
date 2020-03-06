@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import CreatePlaylistDetails from "../../createPlaylist/CreatePlaylistDetails.js";
 import InputPlaylist from "../../createPlaylist/InputPlaylist.js";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import SVG from "react-inlinesvg";
 import MusicComposeIllustration from "../../../assets/illustrations/undraw/undraw_compose_music_ovo2.svg";
-import * as Api from "../../../api/CreatePlaylistApi";
-const CreatePlaylist = () => {
-    const { t } = useTranslation();
+import {useHistory} from "react-router-dom";
+
+import {connect} from "react-redux";
+import {error, success} from "../../../model/Message/types";
+import {dispatchAddMessage} from "../../../actions/message";
+import {postUrl, savePlaylist} from "../../../api/CreatePlaylistApi";
+
+const CreatePlaylist = ({addMessage}) => {
+    const {t} = useTranslation();
+    let history = useHistory();
 
     const [name, setName] = useState("");
     const [importUrl, setImportUrl] = useState("");
@@ -14,14 +21,36 @@ const CreatePlaylist = () => {
     const [responses, setResponses] = useState([]);
     const [isSubmitable, setIsSubmitable] = useState(false);
 
-    const onNameChange = event => {
-        if (responses.length > 0 && event.target.value !== "") {
-            setIsSubmitable(true);
+    useEffect(() => {
+        checkValidite();
+    }, [responses])
+
+    const checkValidite = () => {
+        setIsSubmitable(true);
+
+        if (responses.length == 0) {
+            setIsSubmitable(false);
         } else {
+            responses.map(item => {
+                if (item.title == undefined || item.singer == undefined) {
+                    setIsSubmitable(false);
+                } else if (item.title.trim() === "" || item.singer.trim() === "") {
+                    setIsSubmitable(false);
+                }
+
+            });
+        }
+
+        if (document.getElementById("playListTitle").value.trim() == "") {
             setIsSubmitable(false);
         }
+
+    };
+
+    const onNameChange = event => {
         setName(event.target.value);
     };
+
     const onImportChange = event => {
         const value = event.target.value;
         var paramList = "";
@@ -38,65 +67,39 @@ const CreatePlaylist = () => {
         }
         setImportUrl(value);
         setLoading(true);
-        // new Promise((resolve, reject) => {
-        //     setLoading(true);
-        //     setResponses(Api.postUrl(paramList));
-        // }).then(() => {
-        //     setLoading(false);
-        //         if(responses.length > 0 && name !== "")
-        // {
-        //     setIsSubmitable(true);
-        // }
-        // });
 
-        // //Axios mock
-        setTimeout(function() {
-            setResponses([
-                {
-                    id: 1,
-                    title: "Belle",
-                    artist: "Les dix commandements",
-                    track: {
-                        yttitle: "Belle - Les dix commandements"
-                    }
-                },
-                {
-                    id: 2,
-                    title: "Je t'aime",
-                    artist: "Céline dion",
-                    track: {
-                        yttitle: "Je t'aime - Céline dion"
-                    }
-                },
-                {
-                    id: 3,
-                    title: "Yaka",
-                    artist: "Shakira",
-                    track: {
-                        yttitle: "Yaka - Shakira"
-                    }
-                },
-                {
-                    id: 4,
-                    title: "She wolf",
-                    artist: "Shakira",
-                    track: {
-                        yttitle: "She wolf - Shakira"
-                    }
-                }
-            ]);
-            setLoading(false);
-            if (responses.length > 0 && name !== "") {
-                setIsSubmitable(true);
-            }
-        }, 3000);
+        postUrl(paramList)
+            .then(res => {
+                setResponses(res);
+                setLoading(false);
+            })
+            .catch(err => {
+                addMessage(err.statusText, error);
+            });
+    };
+
+    const handleSavePlaylist = () => {
+        let data = {
+            name: document.getElementById("playListTitle").value.trim(),
+            scoreMax: 9 * (responses.length + 1),
+            results: responses
+        };
+
+        savePlaylist(data)
+            .then(res => {
+                addMessage("Playlist sauvegardée !", success);
+                history.push("/");
+            })
+            .catch(err => {
+                addMessage(err.statusText, error);
+            });
     };
 
     const removeTrack = id => {
         setResponses(
-            responses.filter(function(value, index, arr) {
+            responses.filter(function (value, index, arr) {
                 return value.id !== id;
-            })
+            }),
         );
     };
     return (
@@ -136,13 +139,26 @@ const CreatePlaylist = () => {
                         )}
                         disabled={loading}
                     />
+                    {isSubmitable ? (
+                        <button
+                            onClick={() => handleSavePlaylist()}
+                            type="button"
+                            className="p-3 ml-2 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline"
+                        >
+                            {t("create_playlist.form.create")}
+                        </button>
+                    ) : (
+                        ""
+                    )}
                     <CreatePlaylistDetails
                         loading={loading}
                         responses={responses}
                         removeTrack={removeTrack}
+                        checkValidite={checkValidite}
                     />
                     {isSubmitable ? (
                         <button
+                            onClick={() => handleSavePlaylist()}
                             type="button"
                             className="p-3 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline"
                         >
@@ -164,4 +180,11 @@ const CreatePlaylist = () => {
     );
 };
 
-export default CreatePlaylist;
+const mapStateToProps = state => {
+    return {};
+};
+const mapDispatchsToProps = dispatch => {
+    return dispatchAddMessage(dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchsToProps)(CreatePlaylist);

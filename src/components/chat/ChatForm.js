@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 
 import ChatFormInput from "./ChatFormInput";
 import ChatFormButton from "./ChatFormButton";
-import {isUserLogged} from "../../service/entity/userService";
+import {connect} from "react-redux";
 
-const ChatForm = ({addMessages}) => {
+const ChatForm = ({addMessages, user}) => {
     const [message, setMessage] = useState('');
 
     const onMessageChange = event => setMessage(event.target.value);
     const resetMessage = () => setMessage('');
 
-    if (!isUserLogged()) {
+    if (user === null) {
         return "";
     }
 
@@ -31,4 +31,10 @@ const ChatForm = ({addMessages}) => {
     );
 };
 
-export default ChatForm;
+const mapStateToProps = state => {
+    return {
+        user: state.authenticatedUser
+    };
+};
+
+export default connect(mapStateToProps)(ChatForm);

@@ -3,7 +3,7 @@ import CreatePlaylistItem from "./CreatePlaylistItem.js";
 import Loading from "../common/Loading";
 import { useTranslation } from "react-i18next";
 
-const CreatePlaylistDetails = ({ responses, loading, removeTrack }) => {
+const CreatePlaylistDetails = ({ responses, loading, removeTrack,checkValidite }) => {
     const { t } = useTranslation();
 
     const renderPlaylistDetails = () => {
@@ -22,13 +22,16 @@ const CreatePlaylistDetails = ({ responses, loading, removeTrack }) => {
                 <div className="mt-10 bg-gray-900 p-4 shadow-lg rounded-lg mt-2">
                     <div className="flex text-xl font-bold">
                         <div className="flex-1">
+                            {t("create_playlist.form.inputs.thumbnail")}
+                        </div>
+                        <div className="flex-1">
+                            {t("create_playlist.form.inputs.yt_title")}
+                        </div>
+                        <div className="flex-1">
                             {t("create_playlist.form.inputs.title")}
                         </div>
                         <div className="flex-1">
                             {t("create_playlist.form.inputs.artist")}
-                        </div>
-                        <div className="flex-1">
-                            {t("create_playlist.form.inputs.yt_title")}
                         </div>
                         <div className="flex-1" />
                     </div>
@@ -40,6 +43,7 @@ const CreatePlaylistDetails = ({ responses, loading, removeTrack }) => {
                                     key={response.id}
                                     response={response}
                                     removeTrack={removeTrack}
+                                    checkValidite={checkValidite}
                                 />
                             );
                         })}

@@ -1,24 +1,8 @@
 import {axiosAuthenticated} from "../axios/axios";
 
-const postChat = message => {
+const getPlaylists = () => {
     return new Promise((resolve, reject) => {
-        axiosAuthenticated.post('/chats', {message: message})
-            .then(response => {
-                if (response.status === 201) {
-                    resolve(response.data);
-                } else {
-                    reject(response);
-                }
-            })
-            .catch(error => {
-                reject(error)
-            });
-    });
-};
-
-const loadChats = () => {
-    return new Promise((resolve, reject) => {
-        axiosAuthenticated.get('/chats/load')
+        axiosAuthenticated.get('/playlists')
             .then(response => {
                 if (response.status === 200) {
                     resolve(response);
@@ -32,13 +16,9 @@ const loadChats = () => {
     });
 };
 
-const loadLastChats = (lastCreatedAt) => {
+const getPlaylist = id => {
     return new Promise((resolve, reject) => {
-        axiosAuthenticated.get('/chats/load', {
-            params: {
-                after: lastCreatedAt
-            }
-        })
+        axiosAuthenticated.get(`/playlists/${id}`)
             .then(response => {
                 if (response.status === 200) {
                     resolve(response);
@@ -52,4 +32,4 @@ const loadLastChats = (lastCreatedAt) => {
     });
 };
 
-export {postChat, loadChats, loadLastChats};
+export {getPlaylists, getPlaylist};

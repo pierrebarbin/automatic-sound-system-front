@@ -5,7 +5,7 @@ import ProfileBottomTab from "../../profile/ProfileBottomTab";
 const Profile = () => {
     return (
         <div>
-            <ProfileForm />
+            <ProfileForm/>
             <ProfileBottomTab />
         </div>
     );
