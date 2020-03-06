@@ -5,7 +5,7 @@ import TheRightSidePanelContent from "./TheRightSidePanelContent";
 
 const TheRightSidePanel = props => {
 
-    const [tab, setTab] = useState('users');
+    const [tab, setTab] = useState('chat');
 
     const changeTab = tab => setTab(tab);
 

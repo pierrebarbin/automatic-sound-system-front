@@ -1,13 +1,5 @@
 const key = 'authenticatedUser';
 
-const dispatchDeleteAuthenticatedUser = (dispatch, object = {}) => {
-    object.deleteAuthenticatedUser = () => {
-        dispatch({type: 'DELETE', key: key})
-    };
-
-    return object;
-};
-
 const dispatchAddAuthenticatedUser = (dispatch, object = {}) => {
     object.addAuthenticatedUser = user => {
         dispatch({
@@ -20,4 +12,4 @@ const dispatchAddAuthenticatedUser = (dispatch, object = {}) => {
     return object;
 };
 
-export {dispatchDeleteAuthenticatedUser, dispatchAddAuthenticatedUser};
+export {dispatchAddAuthenticatedUser};

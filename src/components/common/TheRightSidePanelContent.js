@@ -1,10 +1,10 @@
 import React from 'react';
 import ChatContainer from "../chat/ChatContainer";
 
-const TheRightSidePanelContent = ({users, currentTab}) => {
+const TheRightSidePanelContent = props => {
     const renderTabContent = () => {
         return (
-            <ChatContainer/>
+            <ChatContainer {...props}/>
         )
     };
 
