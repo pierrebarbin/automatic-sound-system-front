@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from "react";
-import Classement from "../classement/Classement.js";
-import TablePlayList from "../home/HomeTablePlaylist";
-import SVG from "react-inlinesvg";
-import MusicComposeIllustration from "../../assets/illustrations/undraw/undraw_music_r1se.svg";
+import {connect} from "react-redux";
 import {getPlaylists} from "../../service/entity/playlistService";
-import PlayPlaylistTableItem from "../table/playlist/play/PlayPlaylistTableItem";
 import PlayPlaylistTable from "../table/playlist/play/PlayPlaylistTable";
 
-const Index = props => {
+const Index = ({token}) => {
     const [playlists, setPlaylists] = useState(null);
 
     /*const [classementItems, setClassementItems] = useState([]);
@@ -133,15 +129,17 @@ const Index = props => {
         ]);
     };*/
 
-    if (playlists === null) {
-        getPlaylists()
-            .then(response => {
-                setPlaylists([...response.data]);
-            })
-            .catch(error => {
-                setPlaylists([]);
-            });
-    }
+    useEffect(() => {
+        if (token !== null && playlists === null) {
+            getPlaylists()
+                .then(response => {
+                    setPlaylists([...response.data]);
+                })
+                .catch(error => {
+                    setPlaylists([]);
+                });
+        }
+    });
 
     return (
         <div>
@@ -173,4 +171,10 @@ const Index = props => {
     );
 };
 
-export default Index;
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    };
+};
+
+export default connect(mapStateToProps)(Index);
