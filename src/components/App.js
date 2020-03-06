@@ -34,7 +34,7 @@ const App = ({token, user, addAuthenticatedUser, deleteToken, chats, addChats}) 
                 });
 
             setTimeout(() => {
-                setReload((+ new Date()))
+                setReload((+new Date()))
             }, 3000);
         }
     };
@@ -44,7 +44,7 @@ const App = ({token, user, addAuthenticatedUser, deleteToken, chats, addChats}) 
             getUserLogged()
                 .then(data => {
                     addAuthenticatedUser(data.user);
-                    setReload((+ new Date()));
+                    setReload((+new Date()));
                 })
                 .catch(data => {
                     deleteToken();
@@ -62,16 +62,22 @@ const App = ({token, user, addAuthenticatedUser, deleteToken, chats, addChats}) 
 
     return (
         <div className="bg-gray-800 text-gray-500 min-h-full">
-            <Router>
-                <TheHeader/>
-                <div className="w-4/5 pt-24 px-4">
-                    <RouteConfig/>
-                </div>
-                <div>
-                    <Toaster/>
-                    {(token === null) ? '' : <TheRightSidePanel chats={chats}/>}
-                </div>
-            </Router>
+            {token === null
+                ? <Router><RouteConfig/></Router>
+                : (
+                    <Router>
+                        <TheHeader/>
+                        < div className="w-4/5 pt-24 px-4">
+                            <RouteConfig/>
+                        </div>
+                        <div>
+                            <Toaster/>
+                            {(token === null) ? '' : <TheRightSidePanel chats={chats}/>}
+                        </div>
+                    </Router>
+                )
+            }
+
         </div>
     );
 };
