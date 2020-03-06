@@ -9,6 +9,10 @@ import YtPlayer from "../../common/ytplayer.js";
 import svgNote from "../../../assets/icons/zondicons/music-notes.svg";
 import svgArtist from "../../../assets/icons/zondicons/music-artist.svg";
 import {getPlaylist} from "../../../service/entity/playlistService";
+import {postScore} from "../../../service/entity/scoreService";
+import {dispatchAddMessage} from "../../../actions/message";
+import {connect} from "react-redux";
+import {success} from "../../../model/Message/types";
 
 // pour le timer voir https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
 const Gameplay = props => {
@@ -107,6 +111,13 @@ const Gameplay = props => {
                         addGameToHistory();
                     }
                     childRef.current.PauseVideo();
+
+                    postScore(playlist.id, score)
+                        .then(response => {
+                            if (response.data.scoreMax === score) {
+                                props.addMessage('Felicitations! Vous avez enregistré un nouveau record pour cette playlist !', success);
+                            }
+                        });
                 }
             }
 
@@ -308,4 +319,7 @@ const Gameplay = props => {
     //endregion
 };
 
-export default Gameplay
+const mapStateToProps = state => { return {}; };
+const mapDispatchToProps = dispatchAddMessage;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Gameplay)
