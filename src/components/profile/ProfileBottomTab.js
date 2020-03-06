@@ -79,54 +79,6 @@ const ProfileBottomTab = () => {
                     }
                 ];
                 break;
-            case "Follow":
-                headers = ["Username", "Follow le"];
-                component = ProfilFollowItem;
-                elements = [
-                    {
-                        id: 1,
-                        creator: "Eaton",
-                        date: "18/01/21"
-                    },
-                    {
-                        id: 2,
-                        creator: "Alice",
-                        date: "08/03/19"
-                    },
-                    {
-                        id: 3,
-                        creator: "Martina",
-                        date: "01/09/19"
-                    },
-                    {
-                        id: 4,
-                        creator: "Melanie",
-                        date: "10/06/19"
-                    },
-                    {
-                        id: 5,
-                        creator: "Odysseus",
-                        date: "30/04/19"
-                    },
-                    {
-                        id: 6,
-                        creator: "Mia",
-                        date: "13/11/19"
-                    },
-                    {
-                        id: 7,
-                        creator: "Penelope",
-                        date: "14/02/21"
-                    },
-                    {
-                        id: 8,
-                        creator: "Uriah",
-                        date: "01/11/20"
-                    }
-                ];
-                break;
-            case "Badges":
-                break;
             case "Playlist":
             default:
                 headers = ["Titre", "Score"];

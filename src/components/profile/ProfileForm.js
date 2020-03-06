@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import SVG from "react-inlinesvg";
 import ProfileIllustration from "../../assets/illustrations/undraw/undraw_profile_6l1l.svg";
@@ -7,8 +7,8 @@ import {connect} from "react-redux";
 const ProfileForm = ({user}) => {
     const {t} = useTranslation();
 
-    const [login, setLogin] = useState(user.username);
-    const [mail, setMail] = useState(user.email);
+    const [login, setLogin] = useState(null);
+    const [mail, setMail] = useState(null);
     const [pwd, setPwd] = useState("");
     const [confpwd, SetConfPwd] = useState("");
 
@@ -27,6 +27,13 @@ const ProfileForm = ({user}) => {
     const onChangeConfPwd = event => {
         SetConfPwd(event.target.value);
     };
+
+    useEffect(() => {
+        if (user !== null && login === null && mail === null) {
+            setLogin(user.username);
+            setMail(user.email);
+        }
+    }, [user]);
 
     return (
         <div className="flex items-center justify-center my-4">

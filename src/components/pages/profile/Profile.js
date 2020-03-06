@@ -6,7 +6,7 @@ const Profile = () => {
     return (
         <div>
             <ProfileForm/>
-            <ProfileBottomTab />
+            {/*<ProfileBottomTab />*/}
         </div>
     );
 };
