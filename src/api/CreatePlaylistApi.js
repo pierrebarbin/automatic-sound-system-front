@@ -1,13 +1,13 @@
-import { axiosAuthenticated } from "../service/axios/axios";
+import {axiosAuthenticated} from "../service/axios/axios";
 
-export function insert(playlist) {
+const insert = playlist => {
     axiosAuthenticated.post(`/playlist`, playlist);
-}
+};
 
-export function postUrl(paramListofUrl) {
+const postUrl = paramListofUrl => {
 
     return new Promise((resolve, reject) => {
-        axiosAuthenticated.post('/tracks/youtube/playlist?yt_playlist_id='+paramListofUrl)
+        axiosAuthenticated.post('/tracks/youtube/playlist?yt_playlist_id=' + paramListofUrl)
             .then(response => {
                 if (response.status === 200) {
                     resolve(response.data);
@@ -19,12 +19,11 @@ export function postUrl(paramListofUrl) {
                 reject(error)
             });
     });
-}
+};
 
-export function savePlaylist(data){
-
+const savePlaylist = data => {
     return new Promise((resolve, reject) => {
-        axiosAuthenticated.post('/playlists',data)
+        axiosAuthenticated.post('/playlists', data)
             .then(response => {
                 if (response.status === 201) {
                     resolve(response.data);
@@ -36,4 +35,6 @@ export function savePlaylist(data){
                 reject(error)
             });
     });
-}
+};
+
+export {insert, postUrl, savePlaylist};

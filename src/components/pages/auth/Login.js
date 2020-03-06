@@ -73,14 +73,14 @@ const Login = ({addMessage, addToken}) => {
                                 />
                             </div>
                         </div>
-                        <div>
+                        {/*<div>
                             <Link
                                 className="text-gray-400 hover:text-gray-500 text-sm"
                                 to="/register"
                             >
                                 {t('login.forgot_password')}
                             </Link>
-                        </div>
+                        </div>*/}
                         <div className="flex justify-around mt-2">
                             <button
                                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline "

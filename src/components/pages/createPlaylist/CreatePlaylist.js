@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import CreatePlaylistDetails from "../../createPlaylist/CreatePlaylistDetails.js";
 import InputPlaylist from "../../createPlaylist/InputPlaylist.js";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import SVG from "react-inlinesvg";
 import MusicComposeIllustration from "../../../assets/illustrations/undraw/undraw_compose_music_ovo2.svg";
-import * as Api from "../../../api/CreatePlaylistApi";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 import {connect} from "react-redux";
 import {error, success} from "../../../model/Message/types";
 import {dispatchAddMessage} from "../../../actions/message";
+import {postUrl, savePlaylist} from "../../../api/CreatePlaylistApi";
 
 const CreatePlaylist = ({addMessage}) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     let history = useHistory();
 
     const [name, setName] = useState("");
@@ -21,37 +21,34 @@ const CreatePlaylist = ({addMessage}) => {
     const [responses, setResponses] = useState([]);
     const [isSubmitable, setIsSubmitable] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         checkValidite();
-    },[responses])
+    }, [responses])
 
     const checkValidite = () => {
         setIsSubmitable(true);
 
-        if ( responses.length == 0 ){
+        if (responses.length == 0) {
             setIsSubmitable(false);
-        }
-        else{
-            responses.map( item => {
-                if ( item.title == undefined || item.singer == undefined ){
+        } else {
+            responses.map(item => {
+                if (item.title == undefined || item.singer == undefined) {
                     setIsSubmitable(false);
-                }
-                else if ( item.title.trim() === "" || item.singer.trim() === "" ){
+                } else if (item.title.trim() === "" || item.singer.trim() === "") {
                     setIsSubmitable(false);
                 }
 
             });
         }
 
-        if ( document.getElementById("playListTitle").value.trim() == "" ){
+        if (document.getElementById("playListTitle").value.trim() == "") {
             setIsSubmitable(false);
         }
 
-    } 
+    };
 
     const onNameChange = event => {
         setName(event.target.value);
-        // checkValidite();
     };
 
     const onImportChange = event => {
@@ -71,7 +68,7 @@ const CreatePlaylist = ({addMessage}) => {
         setImportUrl(value);
         setLoading(true);
 
-        Api.postUrl(paramList)
+        postUrl(paramList)
             .then(res => {
                 setResponses(res);
                 setLoading(false);
@@ -81,32 +78,29 @@ const CreatePlaylist = ({addMessage}) => {
             });
     };
 
-    const savePlaylist = () => {
-        let data = {};
-        data.name = document.getElementById("playListTitle").value.trim();
-        data.scoreMax = 9*(responses.length+1);
-        data.results = responses;
-        
+    const handleSavePlaylist = () => {
+        let data = {
+            name: document.getElementById("playListTitle").value.trim(),
+            scoreMax: 9 * (responses.length + 1),
+            results: responses
+        };
 
-        Api.savePlaylist(data)
-        .then(res => {
-            addMessage("Playlist sauvegardée !", success);
-            history.push("/");
-        })
-        .catch(err => {
-            addMessage(err.statusText, error);
-        });
-
-    }
+        savePlaylist(data)
+            .then(res => {
+                addMessage("Playlist sauvegardée !", success);
+                history.push("/");
+            })
+            .catch(err => {
+                addMessage(err.statusText, error);
+            });
+    };
 
     const removeTrack = id => {
         setResponses(
-            responses.filter(function(value, index, arr) {
+            responses.filter(function (value, index, arr) {
                 return value.id !== id;
             }),
         );
-            
-        // checkValidite();
     };
     return (
         <div className="relative pt-8 pl-4">
@@ -147,7 +141,7 @@ const CreatePlaylist = ({addMessage}) => {
                     />
                     {isSubmitable ? (
                         <button
-                            onClick={() => savePlaylist()}
+                            onClick={() => handleSavePlaylist()}
                             type="button"
                             className="p-3 ml-2 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline"
                         >
@@ -164,7 +158,7 @@ const CreatePlaylist = ({addMessage}) => {
                     />
                     {isSubmitable ? (
                         <button
-                            onClick={() => savePlaylist()}
+                            onClick={() => handleSavePlaylist()}
                             type="button"
                             className="p-3 bg-blue-600 hover:bg-blue-700 text-gray-300 rounded-lg mt-4 hover:shadow-lg shadow focus:outline-none focus:shadow-outline"
                         >

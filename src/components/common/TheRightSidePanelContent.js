@@ -1,17 +1,10 @@
 import React from 'react';
-import UserList from "../user/UserList";
 import ChatContainer from "../chat/ChatContainer";
 
-const TheRightSidePanelContent = ({users,currentTab}) => {
+const TheRightSidePanelContent = props => {
     const renderTabContent = () => {
-        if(currentTab === 'chat'){
-            return (
-                <ChatContainer/>
-            )
-        }
-
         return (
-            <UserList users={users}/>
+            <ChatContainer {...props}/>
         )
     };
 

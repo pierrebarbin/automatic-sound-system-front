@@ -37,7 +37,8 @@ const reducer = (state = initState, action) => {
             case 'DELETE':
                 state = {
                     ...state,
-                    token: null
+                    token: null,
+                    authenticatedUser: null
                 };
                 break;
             default:
@@ -49,12 +50,6 @@ const reducer = (state = initState, action) => {
                 state = {
                     ...state,
                     authenticatedUser: action.authenticatedUser
-                };
-                break;
-            case 'DELETE':
-                state = {
-                    ...state,
-                    authenticatedUser: null
                 };
                 break;
             default:

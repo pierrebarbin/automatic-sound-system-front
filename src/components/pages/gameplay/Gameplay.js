@@ -67,7 +67,6 @@ const Gameplay = props => {
     //#region useEffect
     useEffect(() => {
         let interval = null;
-        console.log(musique);
         if (isActive) {
             if (seconds != 0) {
                 interval = setInterval(() => {
@@ -212,91 +211,10 @@ const Gameplay = props => {
 
         setValueInput("");
         event.preventDefault();
-    }
+    };
 
     const addGameToHistory = () => {
         setGameHistory([currentMusique, ...gameHistory]);
-    };
-
-    const getClassement = event => {
-        //TODO : Utiliser Axios et taper sur l'api
-        setClassementPlaylist([
-            {
-                id: 1,
-                username: "Lewis",
-                score: 6
-            },
-            {
-                id: 2,
-                username: "Buffy",
-                score: 40
-            },
-            {
-                id: 3,
-                username: "Sybil",
-                score: 49
-            },
-            {
-                id: 4,
-                username: "Cara",
-                score: 11
-            },
-            {
-                id: 5,
-                username: "Kenneth",
-                score: 25
-            },
-            {
-                id: 6,
-                username: "Amber",
-                score: 15
-            },
-            {
-                id: 7,
-                username: "Wallace",
-                score: 13
-            },
-            {
-                id: 8,
-                username: "Amir",
-                score: 42
-            },
-            {
-                id: 9,
-                username: "Tasha",
-                score: 12
-            },
-            {
-                id: 10,
-                username: "Karina",
-                score: 12
-            },
-            {
-                id: 11,
-                username: "Madison",
-                score: 8
-            },
-            {
-                id: 12,
-                username: "Stone",
-                score: 21
-            },
-            {
-                id: 13,
-                username: "Vance",
-                score: 34
-            },
-            {
-                id: 14,
-                username: "Nash",
-                score: 3
-            },
-            {
-                id: 15,
-                username: "Sydnee",
-                score: 28
-            }
-        ]);
     };
 
     //region html
